@@ -9,16 +9,34 @@ interface EventModalProps {
 
 const getCategoryColor = (category: string) => {
   switch (category) {
-    case 'founding':
+    case 'philosophical-foundations':
+      return 'from-violet-400 to-purple-500';
+    case 'early-ai':
       return 'from-amber-400 to-orange-500';
-    case 'winter':
+    case 'symbolic-ai':
+      return 'from-yellow-400 to-amber-500';
+    case 'ai-winter':
       return 'from-slate-400 to-slate-600';
-    case 'breakthrough':
+    case 'machine-learning':
       return 'from-green-400 to-emerald-500';
-    case 'modern':
+    case 'rise-of-statistical-methods':
+      return 'from-teal-400 to-cyan-500';
+    case 'technological-milestone':
       return 'from-blue-400 to-indigo-500';
-    case 'recent':
+    case 'generative-ai':
+      return 'from-pink-400 to-rose-500';
+    case 'transformers':
+      return 'from-indigo-400 to-blue-500';
+    case 'ai-applications':
+      return 'from-emerald-400 to-green-500';
+    case 'ai-ethics':
+      return 'from-red-400 to-pink-500';
+    case 'multimodal-ai':
       return 'from-purple-400 to-pink-500';
+    case 'open-source-ai':
+      return 'from-orange-400 to-red-500';
+    case 'ai-future':
+      return 'from-cyan-400 to-blue-500';
     default:
       return 'from-gray-400 to-gray-600';
   }
@@ -26,16 +44,34 @@ const getCategoryColor = (category: string) => {
 
 const getCategoryLabel = (category: string) => {
   switch (category) {
-    case 'founding':
-      return 'Foundation Era';
-    case 'winter':
+    case 'philosophical-foundations':
+      return 'Philosophical Foundations';
+    case 'early-ai':
+      return 'Early AI';
+    case 'symbolic-ai':
+      return 'Symbolic AI';
+    case 'ai-winter':
       return 'AI Winter';
-    case 'breakthrough':
-      return 'Breakthrough';
-    case 'modern':
-      return 'Modern AI';
-    case 'recent':
-      return 'Recent Advances';
+    case 'machine-learning':
+      return 'Machine Learning';
+    case 'rise-of-statistical-methods':
+      return 'Statistical Methods';
+    case 'technological-milestone':
+      return 'Technological Milestone';
+    case 'generative-ai':
+      return 'Generative AI';
+    case 'transformers':
+      return 'Transformers';
+    case 'ai-applications':
+      return 'AI Applications';
+    case 'ai-ethics':
+      return 'AI Ethics';
+    case 'multimodal-ai':
+      return 'Multimodal AI';
+    case 'open-source-ai':
+      return 'Open-Source AI';
+    case 'ai-future':
+      return 'AI Future';
     default:
       return 'Unknown';
   }
@@ -43,13 +79,53 @@ const getCategoryLabel = (category: string) => {
 
 const getRelatedLinks = (event: string) => {
   const links: { [key: string]: string[] } = {
+    "Turing Test": [
+      "https://en.wikipedia.org/wiki/Turing_test",
+      "https://plato.stanford.edu/entries/turing-test/"
+    ],
     "Dartmouth Conference": [
       "https://en.wikipedia.org/wiki/Dartmouth_workshop",
       "https://www.britannica.com/event/Dartmouth-Conference"
     ],
+    "ELIZA Chatbot": [
+      "https://en.wikipedia.org/wiki/ELIZA",
+      "https://web.njit.edu/~ronkowit/eliza.html"
+    ],
+    "Chinese Room Argument": [
+      "https://plato.stanford.edu/entries/chinese-room/",
+      "https://en.wikipedia.org/wiki/Chinese_room"
+    ],
     "Backpropagation Popularized": [
       "https://www.nature.com/articles/323533a0",
       "https://en.wikipedia.org/wiki/Backpropagation"
+    ],
+    "Support Vector Machines (SVMs)": [
+      "https://en.wikipedia.org/wiki/Support-vector_machine",
+      "https://scikit-learn.org/stable/modules/svm.html"
+    ],
+    "Long Short-Term Memory (LSTM)": [
+      "https://en.wikipedia.org/wiki/Long_short-term_memory",
+      "https://www.bioinf.jku.at/publications/older/2604.pdf"
+    ],
+    "Deep Learning Renaissance": [
+      "https://www.cs.toronto.edu/~hinton/science.pdf",
+      "https://en.wikipedia.org/wiki/Deep_learning"
+    ],
+    "NVIDIA launch CUDA": [
+      "https://developer.nvidia.com/cuda-zone",
+      "https://en.wikipedia.org/wiki/CUDA"
+    ],
+    "ImageNet Launched": [
+      "http://www.image-net.org/",
+      "https://en.wikipedia.org/wiki/ImageNet"
+    ],
+    "AlexNet": [
+      "https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html",
+      "https://en.wikipedia.org/wiki/AlexNet"
+    ],
+    "GANs Introduced": [
+      "https://arxiv.org/abs/1406.2661",
+      "https://en.wikipedia.org/wiki/Generative_adversarial_network"
     ],
     "Attention Is All You Need": [
       "https://arxiv.org/abs/1706.03762",
@@ -59,13 +135,33 @@ const getRelatedLinks = (event: string) => {
       "https://openai.com/research/language-unsupervised",
       "https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf"
     ],
-    "ChatGPT": [
+    "GPT-2": [
+      "https://openai.com/research/better-language-models",
+      "https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf"
+    ],
+    "GPT-3": [
+      "https://arxiv.org/abs/2005.14165",
+      "https://openai.com/research/language-models-are-few-shot-learners"
+    ],
+    "Launch of DALL-E": [
+      "https://openai.com/research/dall-e",
+      "https://arxiv.org/abs/2102.12092"
+    ],
+    "Launch of ChatGPT": [
       "https://openai.com/blog/chatgpt",
       "https://chat.openai.com/"
+    ],
+    "GPT-4": [
+      "https://arxiv.org/abs/2303.08774",
+      "https://openai.com/research/gpt-4"
     ],
     "Claude 3 by Anthropic": [
       "https://www.anthropic.com/news/claude-3-family",
       "https://www.anthropic.com/claude"
+    ],
+    "Gemini by Google": [
+      "https://deepmind.google/technologies/gemini/",
+      "https://arxiv.org/abs/2312.11805"
     ]
   };
   
@@ -121,6 +217,8 @@ export const EventModal = ({ event, onClose }: EventModalProps) => {
                      link.includes('wikipedia.org') ? 'Wikipedia Article' :
                      link.includes('openai.com') ? 'OpenAI Research' :
                      link.includes('anthropic.com') ? 'Anthropic Research' :
+                     link.includes('plato.stanford.edu') ? 'Stanford Encyclopedia' :
+                     link.includes('deepmind.google') ? 'Google DeepMind' :
                      'External Link'} →
                   </a>
                 ))}
