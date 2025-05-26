@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TimelineEventData } from "@/data/timelineData";
 import { getCategoryColor } from "@/utils/categoryUtils";
 
@@ -10,26 +10,44 @@ interface CompactTimelineProps {
 
 export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) => {
   const [hoveredEvent, setHoveredEvent] = useState<string | null>(null);
+  const [windowWidth, setWindowWidth] = useState<number>(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    // Set initial width
+    setWindowWidth(window.innerWidth);
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Function to get columns based on screen size (matching Tailwind breakpoints)
   const getColumnsForScreenSize = () => {
-    if (typeof window !== 'undefined') {
-      const width = window.innerWidth;
-      if (width >= 1280) return 5; // xl
-      if (width >= 1024) return 4; // lg
-      if (width >= 768) return 3;  // md
-      if (width >= 640) return 2;  // sm
-      return 1; // default
-    }
-    return 5; // fallback for SSR
+    if (windowWidth >= 1280) return 5; // xl
+    if (windowWidth >= 1024) return 4; // lg
+    if (windowWidth >= 768) return 3;  // md
+    if (windowWidth >= 640) return 2;  // sm
+    return 1; // default
   };
+
+  const cols = getColumnsForScreenSize();
+  const totalRows = Math.ceil(events.length / cols);
+  const containerHeight = totalRows * 200; // 200px per row
 
   return (
     <div className="mb-16">
       {/* Grid timeline container */}
-      <div className="relative">
+      <div className="relative" style={{ height: `${containerHeight}px` }}>
         {/* Timeline connecting lines */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
+        <svg 
+          className="absolute inset-0 w-full h-full pointer-events-none" 
+          style={{ zIndex: 1 }}
+          viewBox={`0 0 100 ${containerHeight}`}
+          preserveAspectRatio="none"
+        >
           <defs>
             <linearGradient id="timelineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#60A5FA" />
@@ -40,31 +58,26 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
           {events.map((_, index) => {
             if (index === events.length - 1) return null;
             
-            // Use a fixed column count for consistent line drawing
-            const cols = 5; // This will work for xl screens, and scale down appropriately
             const currentRow = Math.floor(index / cols);
             const currentCol = index % cols;
             const nextIndex = index + 1;
             const nextRow = Math.floor(nextIndex / cols);
             const nextCol = nextIndex % cols;
             
-            // Calculate positions
+            // Calculate positions as percentages
             const cellWidth = 100 / cols;
-            const cellHeight = 180; // Adjusted for better spacing
+            const rowHeight = 200;
             
-            const x1 = `${currentCol * cellWidth + cellWidth / 2}%`;
-            const y1 = currentRow * cellHeight + 80;
-            
-            let x2, y2;
-            let pathData = "";
+            const x1 = currentCol * cellWidth + cellWidth / 2;
+            const y1 = currentRow * rowHeight + 100; // Center of the dot
             
             if (currentRow !== nextRow) {
-              // Snake pattern: at end of row, create L-shaped path to start of next row
-              const midY = y1 + 40;
-              const nextY = nextRow * cellHeight + 80;
+              // Snake pattern: L-shaped path to start of next row
+              const x2 = cellWidth / 2; // First column of next row
+              const y2 = nextRow * rowHeight + 100;
+              const midY = y1 + 50; // Drop down point
               
-              // Create path that goes down then across to start of next row
-              pathData = `M ${x1} ${y1} L ${x1} ${midY} L ${cellWidth / 2}% ${midY} L ${cellWidth / 2}% ${nextY}`;
+              const pathData = `M ${x1} ${y1} L ${x1} ${midY} L ${x2} ${midY} L ${x2} ${y2}`;
               
               return (
                 <path
@@ -73,14 +86,14 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
                   stroke="url(#timelineGradient)"
                   strokeWidth="2"
                   fill="none"
-                  opacity="0.7"
+                  opacity="0.8"
                   className="drop-shadow-sm"
                 />
               );
             } else {
               // Same row: straight horizontal line
-              x2 = `${nextCol * cellWidth + cellWidth / 2}%`;
-              y2 = nextRow * cellHeight + 80;
+              const x2 = nextCol * cellWidth + cellWidth / 2;
+              const y2 = nextRow * rowHeight + 100;
               
               return (
                 <line
@@ -91,7 +104,7 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
                   y2={y2}
                   stroke="url(#timelineGradient)"
                   strokeWidth="2"
-                  opacity="0.7"
+                  opacity="0.8"
                   className="drop-shadow-sm"
                 />
               );
@@ -108,7 +121,7 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
             return (
               <div
                 key={eventKey}
-                className="relative flex flex-col items-center cursor-pointer group"
+                className="relative flex flex-col items-center cursor-pointer group h-48"
                 onMouseEnter={() => setHoveredEvent(eventKey)}
                 onMouseLeave={() => setHoveredEvent(null)}
                 onClick={() => onEventClick(event)}
@@ -117,7 +130,7 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
                 <div className={`w-4 h-4 bg-gradient-to-r ${colorClasses} rounded-full border-4 border-slate-900 shadow-lg transition-all duration-300 ${isHovered ? 'scale-125 shadow-xl' : ''} z-10 mb-4`}></div>
                 
                 {/* Event card */}
-                <div className={`bg-slate-800/80 backdrop-blur-sm p-4 rounded-lg border border-slate-600 shadow-lg transition-all duration-300 ${isHovered ? 'border-blue-400/50 shadow-blue-500/20 transform scale-105' : ''} w-full`}>
+                <div className={`bg-slate-800/80 backdrop-blur-sm p-4 rounded-lg border border-slate-600 shadow-lg transition-all duration-300 ${isHovered ? 'border-blue-400/50 shadow-blue-500/20 transform scale-105' : ''} w-full flex-1`}>
                   {/* Year */}
                   <div className="text-xl font-bold text-white mb-2 text-center">{event.year}</div>
                   
