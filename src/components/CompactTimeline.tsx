@@ -40,11 +40,10 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
   return (
     <div className="mb-16">
       {/* Grid timeline container */}
-      <div className="relative" style={{ height: `${containerHeight}px` }}>
+      <div className="relative max-w-6xl mx-auto px-4" style={{ height: `${containerHeight}px` }}>
         {/* Timeline connecting lines */}
         <svg 
-          className="absolute inset-0 w-full h-full pointer-events-none" 
-          style={{ zIndex: 1 }}
+          className="absolute inset-0 w-full h-full pointer-events-none z-10" 
           width="100%"
           height={containerHeight}
         >
@@ -72,28 +71,32 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
             const adjustedCurrentCol = isCurrentRowOdd ? (cols - 1 - currentCol) : currentCol;
             const adjustedNextCol = isNextRowOdd ? (cols - 1 - nextCol) : nextCol;
             
-            // Calculate actual pixel positions
-            const containerWidth = windowWidth > 0 ? Math.min(windowWidth - 32, 1152) : 1152; // max-width with padding
-            const cellWidth = containerWidth / cols;
+            // Calculate positions based on the grid
+            const maxWidth = Math.min(windowWidth - 32, 1152); // Container max width
+            const gapSize = 24; // gap-6 = 24px
+            const totalGaps = (cols - 1) * gapSize;
+            const availableWidth = maxWidth - totalGaps;
+            const cellWidth = availableWidth / cols;
             const rowHeight = 200;
             
-            const x1 = adjustedCurrentCol * cellWidth + cellWidth / 2;
-            const y1 = currentRow * rowHeight + 100; // Center of the dot
+            // Calculate center positions of the dots (16px from top of each cell)
+            const x1 = adjustedCurrentCol * (cellWidth + gapSize) + cellWidth / 2;
+            const y1 = currentRow * rowHeight + 16; // Position of the dot in each cell
             
             if (currentRow !== nextRow) {
               // Moving to next row - create L-shaped path
-              const x2 = adjustedNextCol * cellWidth + cellWidth / 2;
-              const y2 = nextRow * rowHeight + 100;
+              const x2 = adjustedNextCol * (cellWidth + gapSize) + cellWidth / 2;
+              const y2 = nextRow * rowHeight + 16;
               
-              // Create L-shaped path: horizontal then vertical
+              // Create L-shaped path for row transitions
               let pathData;
               if (isCurrentRowOdd) {
-                // Current row is right-to-left, so go to left edge then down then to first position
-                const leftEdge = cellWidth / 2;
+                // Current row is right-to-left, connect to left edge
+                const leftEdge = 0;
                 pathData = `M ${x1} ${y1} L ${leftEdge} ${y1} L ${leftEdge} ${y2} L ${x2} ${y2}`;
               } else {
-                // Current row is left-to-right, so go to right edge then down then to last position
-                const rightEdge = containerWidth - cellWidth / 2;
+                // Current row is left-to-right, connect to right edge
+                const rightEdge = maxWidth;
                 pathData = `M ${x1} ${y1} L ${rightEdge} ${y1} L ${rightEdge} ${y2} L ${x2} ${y2}`;
               }
               
@@ -110,8 +113,8 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
               );
             } else {
               // Same row: straight horizontal line
-              const x2 = adjustedNextCol * cellWidth + cellWidth / 2;
-              const y2 = nextRow * rowHeight + 100;
+              const x2 = adjustedNextCol * (cellWidth + gapSize) + cellWidth / 2;
+              const y2 = nextRow * rowHeight + 16;
               
               return (
                 <line
@@ -130,7 +133,7 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
           })}
         </svg>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 px-4 relative" style={{ zIndex: 2 }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 relative z-20">
           {events.map((event, index) => {
             const colorClasses = getCategoryColor(event.category);
             const isHovered = hoveredEvent === `${event.year}-${event.event}`;
@@ -153,7 +156,7 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
                 onClick={() => onEventClick(event)}
               >
                 {/* Timeline dot */}
-                <div className={`w-4 h-4 bg-gradient-to-r ${colorClasses} rounded-full border-4 border-slate-900 shadow-lg transition-all duration-300 ${isHovered ? 'scale-125 shadow-xl' : ''} z-10 mb-4`}></div>
+                <div className={`w-4 h-4 bg-gradient-to-r ${colorClasses} rounded-full border-4 border-slate-900 shadow-lg transition-all duration-300 ${isHovered ? 'scale-125 shadow-xl' : ''} z-30 mb-4`}></div>
                 
                 {/* Event card */}
                 <div className={`bg-slate-800/80 backdrop-blur-sm p-4 rounded-lg border border-slate-600 shadow-lg transition-all duration-300 ${isHovered ? 'border-blue-400/50 shadow-blue-500/20 transform scale-105' : ''} w-full flex-1`}>
