@@ -69,9 +69,15 @@ export const SnakingTimeline = ({ events, onEventClick }: SnakingTimelineProps) 
               <div className="absolute top-2 left-1/2 right-1/2 w-full h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 z-0 transform -translate-x-1/2"></div>
             )}
 
-            {/* Vertical connecting line to next row */}
+            {/* Vertical connecting lines to next row */}
             {rowIndex < rows.length - 1 && (
-              <div className={`absolute ${row.isReversed ? 'left-0' : 'right-0'} w-0.5 h-8 bg-gradient-to-b from-purple-400 to-cyan-400 top-2 z-0`}></div>
+              <>
+                {/* Vertical line going down from current row */}
+                <div className={`absolute ${row.isReversed ? 'left-0' : 'right-0'} w-0.5 h-4 bg-gradient-to-b from-purple-400 to-cyan-400 top-2 z-0`}></div>
+                
+                {/* Vertical line connecting to next row */}
+                <div className={`absolute ${row.isReversed ? 'left-0' : 'right-0'} w-0.5 h-4 bg-gradient-to-b from-cyan-400 to-blue-400 top-6 z-0 translate-y-8`}></div>
+              </>
             )}
           </div>
         ))}
