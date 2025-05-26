@@ -61,7 +61,7 @@ export const About = () => {
             </div>
             <div className="pt-2">
               <a 
-                href="https://github.com/your-username/ai-timeline-explorer" 
+                href="https://github.com/malminhas/ai-chronicle-view" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-blue-400 hover:text-blue-300 underline text-sm"
