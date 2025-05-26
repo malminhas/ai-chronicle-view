@@ -68,23 +68,40 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
             const cellWidth = 100 / cols;
             const rowHeight = 200;
             
-            const x1 = currentCol * cellWidth + cellWidth / 2;
+            // For snaking pattern, adjust column positions for odd rows (right-to-left)
+            const isCurrentRowOdd = currentRow % 2 === 1;
+            const isNextRowOdd = nextRow % 2 === 1;
+            
+            // Adjust column positions for snaking
+            const adjustedCurrentCol = isCurrentRowOdd ? (cols - 1 - currentCol) : currentCol;
+            const adjustedNextCol = isNextRowOdd ? (cols - 1 - nextCol) : nextCol;
+            
+            const x1 = adjustedCurrentCol * cellWidth + cellWidth / 2;
             const y1 = currentRow * rowHeight + 100; // Center of the dot
             
             if (currentRow !== nextRow) {
-              // Snake pattern: L-shaped path to start of next row
-              const x2 = cellWidth / 2; // First column of next row
+              // Moving to next row - create L-shaped path
+              const x2 = adjustedNextCol * cellWidth + cellWidth / 2;
               const y2 = nextRow * rowHeight + 100;
-              const midY = y1 + 50; // Drop down point
               
-              const pathData = `M ${x1} ${y1} L ${x1} ${midY} L ${x2} ${midY} L ${x2} ${y2}`;
+              // Create L-shaped path: horizontal then vertical
+              let pathData;
+              if (isCurrentRowOdd) {
+                // Current row is right-to-left, so go to left edge then down then to first position
+                const leftEdge = cellWidth / 2;
+                pathData = `M ${x1} ${y1} L ${leftEdge} ${y1} L ${leftEdge} ${y2} L ${x2} ${y2}`;
+              } else {
+                // Current row is left-to-right, so go to right edge then down then to last position
+                const rightEdge = 100 - cellWidth / 2;
+                pathData = `M ${x1} ${y1} L ${rightEdge} ${y1} L ${rightEdge} ${y2} L ${x2} ${y2}`;
+              }
               
               return (
                 <path
                   key={`path-${index}`}
                   d={pathData}
                   stroke="url(#timelineGradient)"
-                  strokeWidth="2"
+                  strokeWidth="3"
                   fill="none"
                   opacity="0.8"
                   className="drop-shadow-sm"
@@ -92,7 +109,7 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
               );
             } else {
               // Same row: straight horizontal line
-              const x2 = nextCol * cellWidth + cellWidth / 2;
+              const x2 = adjustedNextCol * cellWidth + cellWidth / 2;
               const y2 = nextRow * rowHeight + 100;
               
               return (
@@ -103,7 +120,7 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
                   x2={x2}
                   y2={y2}
                   stroke="url(#timelineGradient)"
-                  strokeWidth="2"
+                  strokeWidth="3"
                   opacity="0.8"
                   className="drop-shadow-sm"
                 />
@@ -118,10 +135,19 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
             const isHovered = hoveredEvent === `${event.year}-${event.event}`;
             const eventKey = `${event.year}-${event.event}`;
             
+            // Calculate snaking position
+            const row = Math.floor(index / cols);
+            const col = index % cols;
+            const isRowOdd = row % 2 === 1;
+            const adjustedCol = isRowOdd ? (cols - 1 - col) : col;
+            
             return (
               <div
                 key={eventKey}
                 className="relative flex flex-col items-center cursor-pointer group h-48"
+                style={{ 
+                  order: isRowOdd ? (row * cols + (cols - 1 - col)) : index
+                }}
                 onMouseEnter={() => setHoveredEvent(eventKey)}
                 onMouseLeave={() => setHoveredEvent(null)}
                 onClick={() => onEventClick(event)}
