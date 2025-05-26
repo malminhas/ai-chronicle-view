@@ -9,5 +9,5 @@ export interface TimelineEventData {
   references?: string[];
 }
 
-// Load timeline data from JSON file
-export const timelineData: TimelineEventData[] = timelineEventsData;
+// Load timeline data from JSON file with proper type assertion
+export const timelineData: TimelineEventData[] = timelineEventsData as TimelineEventData[];
