@@ -37,6 +37,28 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
   const totalRows = Math.ceil(events.length / cols);
   const containerHeight = totalRows * 200; // 200px per row
 
+  // Calculate actual layout dimensions
+  const maxWidth = Math.min(windowWidth - 32, 1152); // Container max width with padding
+  const gapSize = 24; // gap-6 = 24px
+  const totalGaps = (cols - 1) * gapSize;
+  const availableWidth = maxWidth - totalGaps;
+  const cellWidth = availableWidth / cols;
+  const rowHeight = 200;
+
+  const getEventPosition = (index: number) => {
+    const row = Math.floor(index / cols);
+    const col = index % cols;
+    const isRowOdd = row % 2 === 1;
+    
+    // For odd rows, reverse the column order (right to left)
+    const adjustedCol = isRowOdd ? (cols - 1 - col) : col;
+    
+    const x = adjustedCol * (cellWidth + gapSize) + cellWidth / 2;
+    const y = row * rowHeight + 16; // 16px from top for dot position
+    
+    return { x, y, row, col: adjustedCol };
+  };
+
   return (
     <div className="mb-16">
       {/* Grid timeline container */}
@@ -44,8 +66,7 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
         {/* Timeline connecting lines */}
         <svg 
           className="absolute inset-0 w-full h-full pointer-events-none z-10" 
-          width="100%"
-          height={containerHeight}
+          style={{ left: '16px', right: '16px', width: `${maxWidth}px` }}
         >
           <defs>
             <linearGradient id="timelineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -54,75 +75,55 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
               <stop offset="100%" stopColor="#22D3EE" />
             </linearGradient>
           </defs>
+          
           {events.map((_, index) => {
             if (index === events.length - 1) return null;
             
-            const currentRow = Math.floor(index / cols);
-            const currentCol = index % cols;
-            const nextIndex = index + 1;
-            const nextRow = Math.floor(nextIndex / cols);
-            const nextCol = nextIndex % cols;
+            const currentPos = getEventPosition(index);
+            const nextPos = getEventPosition(index + 1);
             
-            // For snaking pattern, adjust column positions for odd rows (right-to-left)
-            const isCurrentRowOdd = currentRow % 2 === 1;
-            const isNextRowOdd = nextRow % 2 === 1;
-            
-            // Adjust column positions for snaking
-            const adjustedCurrentCol = isCurrentRowOdd ? (cols - 1 - currentCol) : currentCol;
-            const adjustedNextCol = isNextRowOdd ? (cols - 1 - nextCol) : nextCol;
-            
-            // Calculate positions based on the grid
-            const maxWidth = Math.min(windowWidth - 32, 1152); // Container max width
-            const gapSize = 24; // gap-6 = 24px
-            const totalGaps = (cols - 1) * gapSize;
-            const availableWidth = maxWidth - totalGaps;
-            const cellWidth = availableWidth / cols;
-            const rowHeight = 200;
-            
-            // Calculate center positions of the dots (16px from top of each cell)
-            const x1 = adjustedCurrentCol * (cellWidth + gapSize) + cellWidth / 2;
-            const y1 = currentRow * rowHeight + 16; // Position of the dot in each cell
-            
-            if (currentRow !== nextRow) {
-              // Moving to next row - create L-shaped path
-              const x2 = adjustedNextCol * (cellWidth + gapSize) + cellWidth / 2;
-              const y2 = nextRow * rowHeight + 16;
+            // If moving to next row, create L-shaped path
+            if (currentPos.row !== nextPos.row) {
+              const isCurrentRowOdd = currentPos.row % 2 === 1;
               
-              // Create L-shaped path for row transitions
-              let pathData;
               if (isCurrentRowOdd) {
-                // Current row is right-to-left, connect to left edge
-                const leftEdge = 0;
-                pathData = `M ${x1} ${y1} L ${leftEdge} ${y1} L ${leftEdge} ${y2} L ${x2} ${y2}`;
+                // Current row goes right-to-left, so connect via left edge
+                const pathData = `M ${currentPos.x} ${currentPos.y} L 0 ${currentPos.y} L 0 ${nextPos.y} L ${nextPos.x} ${nextPos.y}`;
+                return (
+                  <path
+                    key={`path-${index}`}
+                    d={pathData}
+                    stroke="url(#timelineGradient)"
+                    strokeWidth="3"
+                    fill="none"
+                    opacity="0.8"
+                    className="drop-shadow-sm"
+                  />
+                );
               } else {
-                // Current row is left-to-right, connect to right edge
-                const rightEdge = maxWidth;
-                pathData = `M ${x1} ${y1} L ${rightEdge} ${y1} L ${rightEdge} ${y2} L ${x2} ${y2}`;
+                // Current row goes left-to-right, so connect via right edge
+                const pathData = `M ${currentPos.x} ${currentPos.y} L ${maxWidth} ${currentPos.y} L ${maxWidth} ${nextPos.y} L ${nextPos.x} ${nextPos.y}`;
+                return (
+                  <path
+                    key={`path-${index}`}
+                    d={pathData}
+                    stroke="url(#timelineGradient)"
+                    strokeWidth="3"
+                    fill="none"
+                    opacity="0.8"
+                    className="drop-shadow-sm"
+                  />
+                );
               }
-              
-              return (
-                <path
-                  key={`path-${index}`}
-                  d={pathData}
-                  stroke="url(#timelineGradient)"
-                  strokeWidth="3"
-                  fill="none"
-                  opacity="0.8"
-                  className="drop-shadow-sm"
-                />
-              );
             } else {
               // Same row: straight horizontal line
-              const x2 = adjustedNextCol * (cellWidth + gapSize) + cellWidth / 2;
-              const y2 = nextRow * rowHeight + 16;
-              
               return (
                 <line
                   key={`line-${index}`}
-                  x1={x1}
-                  y1={y1}
-                  x2={x2}
-                  y2={y2}
+                  x1={currentPos.x}
+                  y1={currentPos.y}
+                  x2={nextPos.x}
+                  y2={nextPos.y}
                   stroke="url(#timelineGradient)"
                   strokeWidth="3"
                   opacity="0.8"
