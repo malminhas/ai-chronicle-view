@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { TimelineEvent } from "./TimelineEvent";
 import { EventModal } from "./EventModal";
@@ -12,7 +11,7 @@ export type { TimelineEventData };
 
 export const Timeline = () => {
   const [selectedEvent, setSelectedEvent] = useState<TimelineEventData | null>(null);
-  const [isCompactView, setIsCompactView] = useState(false);
+  const [isCompactView, setIsCompactView] = useState(true);
 
   return (
     <div className="relative max-w-6xl mx-auto">
