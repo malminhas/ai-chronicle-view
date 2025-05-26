@@ -11,6 +11,19 @@ interface CompactTimelineProps {
 export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) => {
   const [hoveredEvent, setHoveredEvent] = useState<string | null>(null);
 
+  // Function to get columns based on screen size (matching Tailwind breakpoints)
+  const getColumnsForScreenSize = () => {
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      if (width >= 1280) return 5; // xl
+      if (width >= 1024) return 4; // lg
+      if (width >= 768) return 3;  // md
+      if (width >= 640) return 2;  // sm
+      return 1; // default
+    }
+    return 5; // fallback for SSR
+  };
+
   return (
     <div className="mb-16">
       {/* Grid timeline container */}
@@ -27,47 +40,62 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
           {events.map((_, index) => {
             if (index === events.length - 1) return null;
             
-            // Calculate grid positions for snake pattern
-            const cols = 5; // xl:grid-cols-5 is the largest grid
+            // Use a fixed column count for consistent line drawing
+            const cols = 5; // This will work for xl screens, and scale down appropriately
             const currentRow = Math.floor(index / cols);
             const currentCol = index % cols;
             const nextIndex = index + 1;
             const nextRow = Math.floor(nextIndex / cols);
             const nextCol = nextIndex % cols;
             
-            // Calculate approximate positions
+            // Calculate positions
             const cellWidth = 100 / cols;
-            const cellHeight = 200; // Approximate height per row
+            const cellHeight = 180; // Adjusted for better spacing
             
             const x1 = `${currentCol * cellWidth + cellWidth / 2}%`;
-            const y1 = currentRow * cellHeight + 60; // Offset for dot position
+            const y1 = currentRow * cellHeight + 80;
             
             let x2, y2;
+            let pathData = "";
             
-            // Snake logic: if we're at the end of a row, drop down to the start of next row
             if (currentRow !== nextRow) {
-              // Drop down to next row, first column
-              x2 = `${cellWidth / 2}%`;
-              y2 = nextRow * cellHeight + 60;
+              // Snake pattern: at end of row, create L-shaped path to start of next row
+              const midY = y1 + 40;
+              const nextY = nextRow * cellHeight + 80;
+              
+              // Create path that goes down then across to start of next row
+              pathData = `M ${x1} ${y1} L ${x1} ${midY} L ${cellWidth / 2}% ${midY} L ${cellWidth / 2}% ${nextY}`;
+              
+              return (
+                <path
+                  key={`path-${index}`}
+                  d={pathData}
+                  stroke="url(#timelineGradient)"
+                  strokeWidth="2"
+                  fill="none"
+                  opacity="0.7"
+                  className="drop-shadow-sm"
+                />
+              );
             } else {
-              // Continue horizontally in the same row
+              // Same row: straight horizontal line
               x2 = `${nextCol * cellWidth + cellWidth / 2}%`;
-              y2 = nextRow * cellHeight + 60;
+              y2 = nextRow * cellHeight + 80;
+              
+              return (
+                <line
+                  key={`line-${index}`}
+                  x1={x1}
+                  y1={y1}
+                  x2={x2}
+                  y2={y2}
+                  stroke="url(#timelineGradient)"
+                  strokeWidth="2"
+                  opacity="0.7"
+                  className="drop-shadow-sm"
+                />
+              );
             }
-            
-            return (
-              <line
-                key={`line-${index}`}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
-                stroke="url(#timelineGradient)"
-                strokeWidth="2"
-                opacity="0.6"
-                className="drop-shadow-sm"
-              />
-            );
           })}
         </svg>
         
