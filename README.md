@@ -9,6 +9,7 @@ An interactive web application for exploring the history of Artificial Intellige
 ## 📋 Table of Contents
 
 - [Features](#features)
+- [Master Data Source](#master-data-source)
 - [Architecture](#architecture)
 - [Technology Stack](#technology-stack)
 - [Installation & Setup](#installation--setup)
@@ -130,6 +131,37 @@ graph TB
 3. **State Management**: React state for view switching and interactions
 4. **Event Handling**: User interactions trigger modal displays and view changes
 
+## 🏗️ Master Data Source
+
+### 🗂️ Authoritative Timeline Data
+
+The master timeline dataset for this application is maintained in the GitHub repository:
+
+**📂 File Location**: [`src/data/timelineEvents.json`](https://github.com/malminhas/ai-chronicle-view/blob/main/src/data/timelineEvents.json)
+
+This JSON file contains the authoritative collection of AI timeline events, including:
+- **100+ curated events** spanning from 1936 to 2030
+- **Comprehensive descriptions** for each milestone
+- **Categorized events** with proper color coding
+- **Research references** and source links
+- **Standardized formatting** for consistency
+
+### 🔄 Contributing to Master Data
+
+Users can contribute to the master timeline data by:
+
+1. **Downloading the current dataset**: Access the JSON file directly from GitHub
+2. **Making improvements**: Add new events, update descriptions, or add references
+3. **Submitting changes**: Create pull requests with your updates
+4. **Community review**: Changes are reviewed before being merged into the master dataset
+
+### 🏠 Local vs. Master Data
+
+- **Master Data**: The GitHub `timelineEvents.json` serves as the foundation for all users
+- **Local Customizations**: CSV imports create personalized views stored in browser localStorage
+- **Persistence**: Local changes are device-specific and don't affect the master dataset
+- **Synchronization**: Users can reset to master data or export local changes for contribution
+
 ## 🛠️ Technology Stack
 
 ### Core Framework
@@ -202,14 +234,19 @@ graph TB
 
 ### 🔒 Individual User Data
 
-**Important**: Each user gets their own personalized timeline view stored locally in their browser. This means:
+**Important**: Each user gets their own personalized timeline view stored locally in their browser. CSV imports allow users to:
 
-- **Data Isolation**: Importing a CSV file only affects your view - other users are completely unaffected
-- **Personal Storage**: Your timeline data is stored in your browser's localStorage
-- **Independent Views**: Multiple users can have completely different timeline datasets simultaneously
-- **Device-Specific**: Your customized timeline persists only on the device/browser where you made changes
+- **Customize their view**: Import additional events or modify existing ones
+- **Build on master data**: Local changes supplement the master `timelineEvents.json` dataset
+- **Maintain independence**: Changes don't affect other users or the master data
+- **Experiment freely**: Test different timeline configurations without consequences
 
-This design ensures that users can experiment with different datasets without interfering with each other's experience.
+### 📥 Relationship to Master Data
+
+- **Foundation**: All users start with the master dataset from `timelineEvents.json`
+- **Enhancement**: CSV imports add to or override the master data locally
+- **Contribution Path**: Users can export their improvements and submit them to update the master dataset
+- **Reset Option**: Users can always return to the original master dataset
 
 ### Import Functionality
 
@@ -279,7 +316,8 @@ src/
 │   ├── CSVManager.tsx        # CSV import/export
 │   └── References.tsx        # Bibliography section
 ├── data/                # Static data
-│   └── timelineData.ts  # AI timeline events
+│   ├── timelineData.ts  # Legacy static data (deprecated)
+│   └── timelineEvents.json  # Master timeline dataset (GitHub source)
 ├── utils/               # Utility functions
 │   ├── categoryUtils.ts # Color/label mappings
 │   └── csvUtils.ts      # CSV processing logic
@@ -289,6 +327,10 @@ src/
 └── hooks/               # Custom React hooks
     └── use-toast.ts     # Toast notification hook
 ```
+
+**Key Data Files**:
+- **`timelineEvents.json`**: Master dataset maintained on GitHub - the authoritative source
+- **`timelineData.ts`**: Legacy static data file (now deprecated in favor of JSON master data)
 
 ## 📖 Usage Guide
 
@@ -332,14 +374,21 @@ npm run lint         # Run ESLint
 
 ### Adding New Events
 
-Edit `src/data/timelineData.ts` to add new timeline events:
+To add events to the master timeline dataset:
 
-```typescript
+1. **Access the master file**: Download [`timelineEvents.json`](https://github.com/malminhas/ai-chronicle-view/blob/main/src/data/timelineEvents.json)
+2. **Follow the format**: Use the existing event structure
+3. **Submit via GitHub**: Create a pull request with your additions
+4. **Community review**: Changes are reviewed for accuracy and formatting
+
+Example event format:
+```json
 {
-  year: "2024",
-  event: "New AI Breakthrough",
-  description: "Detailed description of the event...",
-  category: "ai-future"
+  "year": "2024",
+  "event": "New AI Breakthrough",
+  "description": "Detailed description of the event...",
+  "category": "ai-future",
+  "references": ["https://example.com/source"]
 }
 ```
 
@@ -386,6 +435,24 @@ npm run build
 3. Make your changes following the established patterns
 4. Test your changes thoroughly
 5. Submit a pull request
+
+### Contributing to Master Timeline Data
+
+**Updating the Authoritative Dataset**:
+
+1. **Fork the repository** on GitHub
+2. **Download the master data**: Access [`timelineEvents.json`](https://github.com/malminhas/ai-chronicle-view/blob/main/src/data/timelineEvents.json)
+3. **Make your changes**: Add events, update descriptions, add references
+4. **Validate your data**: Ensure proper JSON formatting and required fields
+5. **Submit a pull request**: Include a clear description of your additions/changes
+6. **Community review**: Changes are reviewed for accuracy and formatting
+
+**Data Quality Guidelines**:
+- Ensure historical accuracy with proper references
+- Follow the established category system
+- Include meaningful descriptions (not just event names)
+- Add credible source links in the references array
+- Maintain consistent formatting and style
 
 ### Coding Standards
 
