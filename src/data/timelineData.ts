@@ -3,7 +3,7 @@ export interface TimelineEventData {
   year: string;
   event: string;
   description: string;
-  category: 'philosophical-foundations' | 'early-ai' | 'symbolic-ai' | 'ai-winter' | 'machine-learning' | 'rise-of-statistical-methods' | 'technological-milestone' | 'generative-ai' | 'transformers' | 'ai-applications' | 'ai-ethics' | 'multimodal-ai' | 'open-source-ai' | 'ai-future';
+  category: 'philosophical-foundations' | 'early-ai' | 'symbolic-ai' | 'ai-winter' | 'machine-learning' | 'rise-of-statistical-methods' | 'technological-milestone' | 'generative-ai' | 'transformers' | 'ai-applications' | 'ai-ethics' | 'multimodal-ai' | 'open-source-ai' | 'robotics' | 'ai-policy' | 'cultural-impact' | 'speculative';
 }
 
 export const timelineData: TimelineEventData[] = [
@@ -215,6 +215,6 @@ export const timelineData: TimelineEventData[] = [
     year: "2026",
     event: "AI and Quantum Computing",
     description: "The first viable quantum AI models are developed, harnessing quantum computing to solve complex optimization problems previously unsolvable by classical AI.",
-    category: 'ai-future'
+    category: 'speculative'
   }
 ];

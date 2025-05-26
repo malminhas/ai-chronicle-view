@@ -27,8 +27,14 @@ export const getCategoryColor = (category: string) => {
       return 'from-purple-400 to-pink-500';
     case 'open-source-ai':
       return 'from-orange-400 to-red-500';
-    case 'ai-future':
-      return 'from-cyan-400 to-blue-500';
+    case 'robotics':
+      return 'from-cyan-400 to-teal-500';
+    case 'ai-policy':
+      return 'from-rose-400 to-red-500';
+    case 'cultural-impact':
+      return 'from-lime-400 to-green-500';
+    case 'speculative':
+      return 'from-fuchsia-400 to-purple-500';
     default:
       return 'from-gray-400 to-gray-600';
   }
@@ -62,8 +68,14 @@ export const getCategoryLabel = (category: string) => {
       return 'Multimodal AI';
     case 'open-source-ai':
       return 'Open-Source AI';
-    case 'ai-future':
-      return 'AI Future';
+    case 'robotics':
+      return 'Robotics';
+    case 'ai-policy':
+      return 'AI Policy';
+    case 'cultural-impact':
+      return 'Cultural Impact';
+    case 'speculative':
+      return 'Speculative';
     default:
       return 'Unknown';
   }
