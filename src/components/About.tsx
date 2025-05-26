@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Info } from "lucide-react";
+import { Info, Bug } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,9 +10,42 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { extractDataFromLocalStorage } from "@/utils/syncLocalStorageToJson";
+
+const STORAGE_KEY = 'ai-timeline-data';
 
 export const About = () => {
   const [open, setOpen] = useState(false);
+
+  const handleSyncToJson = () => {
+    console.log('=== Debug Storage Button Clicked ===');
+    
+    try {
+      const storageData = extractDataFromLocalStorage();
+      console.log('Raw storage data result:', storageData);
+      
+      if (storageData && storageData.length > 0) {
+        console.log('=== COPY THIS DATA TO UPDATE timelineEvents.json ===');
+        console.log(JSON.stringify(storageData, null, 2));
+        console.log('=== END OF DATA ===');
+        
+        // Show summary
+        const withRefs = storageData.filter(event => event.references && event.references.length > 0);
+        console.log(`📊 Summary: ${storageData.length} total events, ${withRefs.length} events with references`);
+        
+        // Show a sample event with references for verification
+        const sampleWithRefs = storageData.find(event => event.references && event.references.length > 0);
+        if (sampleWithRefs) {
+          console.log('📋 Sample event with references:', sampleWithRefs);
+        }
+      } else {
+        console.log('❌ No localStorage data found to sync');
+        console.log('Current localStorage content:', localStorage.getItem(STORAGE_KEY));
+      }
+    } catch (error) {
+      console.error('❌ Error in handleSyncToJson:', error);
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -68,6 +101,20 @@ export const About = () => {
               >
                 View Source Code →
               </a>
+            </div>
+            <div className="pt-4 border-t border-slate-600">
+              <Button
+                onClick={handleSyncToJson}
+                variant="outline"
+                size="sm"
+                className="w-full flex items-center gap-2"
+              >
+                <Bug className="h-4 w-4" />
+                Debug Storage Data
+              </Button>
+              <p className="text-xs text-slate-500 mt-2">
+                Logs localStorage data to console for development
+              </p>
             </div>
           </DialogDescription>
         </DialogHeader>

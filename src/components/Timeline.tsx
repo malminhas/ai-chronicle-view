@@ -8,7 +8,7 @@ import { SnakingTimeline } from "./SnakingTimeline";
 import { CSVManager } from "./CSVManager";
 import { timelineData, TimelineEventData } from "@/data/timelineData";
 import { logCurrentStorageData, extractDataFromLocalStorage } from "@/utils/syncLocalStorageToJson";
-import { List, Layout, Grid3X3, Info } from "lucide-react";
+import { List, Layout, Grid3X3 } from "lucide-react";
 
 export type { TimelineEventData };
 
@@ -78,36 +78,6 @@ export const Timeline = () => {
     }
   };
 
-  const handleSyncToJson = () => {
-    console.log('=== Debug Storage Button Clicked ===');
-    
-    try {
-      const storageData = extractDataFromLocalStorage();
-      console.log('Raw storage data result:', storageData);
-      
-      if (storageData && storageData.length > 0) {
-        console.log('=== COPY THIS DATA TO UPDATE timelineEvents.json ===');
-        console.log(JSON.stringify(storageData, null, 2));
-        console.log('=== END OF DATA ===');
-        
-        // Show summary
-        const withRefs = storageData.filter(event => event.references && event.references.length > 0);
-        console.log(`📊 Summary: ${storageData.length} total events, ${withRefs.length} events with references`);
-        
-        // Show a sample event with references for verification
-        const sampleWithRefs = storageData.find(event => event.references && event.references.length > 0);
-        if (sampleWithRefs) {
-          console.log('📋 Sample event with references:', sampleWithRefs);
-        }
-      } else {
-        console.log('❌ No localStorage data found to sync');
-        console.log('Current localStorage content:', localStorage.getItem(STORAGE_KEY));
-      }
-    } catch (error) {
-      console.error('❌ Error in handleSyncToJson:', error);
-    }
-  };
-
   return (
     <div className="relative max-w-6xl mx-auto">
       {/* View Toggle */}
@@ -146,15 +116,6 @@ export const Timeline = () => {
         >
           <List className="w-5 h-5" />
           <span className="text-sm font-medium">Detailed View</span>
-        </button>
-
-        <button
-          onClick={handleSyncToJson}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700/50"
-          title="Log localStorage data to console for JSON sync"
-        >
-          <Info className="w-5 h-5" />
-          <span className="text-sm font-medium">Debug Storage</span>
         </button>
       </div>
 
