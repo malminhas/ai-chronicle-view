@@ -66,12 +66,12 @@ export const SnakingTimeline = ({ events, onEventClick }: SnakingTimelineProps) 
 
             {/* Horizontal connecting line across all dots in the row */}
             {row.events.length > 1 && (
-              <div className="absolute top-2 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 z-0"></div>
+              <div className="absolute top-2 left-1/2 right-1/2 w-full h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 z-0 transform -translate-x-1/2"></div>
             )}
 
             {/* Vertical connecting line to next row */}
             {rowIndex < rows.length - 1 && (
-              <div className={`absolute ${row.isReversed ? 'left-0' : 'right-0'} w-0.5 h-16 bg-gradient-to-b from-purple-400 to-cyan-400 mt-4 z-0`}></div>
+              <div className={`absolute ${row.isReversed ? 'left-0' : 'right-0'} w-0.5 h-8 bg-gradient-to-b from-purple-400 to-cyan-400 top-2 z-0`}></div>
             )}
           </div>
         ))}
