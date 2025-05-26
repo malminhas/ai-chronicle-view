@@ -102,9 +102,17 @@ export const SnakingTimeline = ({ events, onEventClick }: SnakingTimelineProps) 
               })}
             </div>
 
-            {/* Horizontal connecting line across all dots in the row */}
+            {/* Horizontal connecting line across the events in the row */}
             {row.events.length > 1 && (
-              <div className="absolute top-2 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 z-0"></div>
+              <div 
+                className="absolute top-2 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 z-0"
+                style={{
+                  left: `${100 / 4 / 2}%`,
+                  right: `${100 / 4 / 2}%`,
+                  width: `${(row.events.length - 1) * 25}%`,
+                  marginLeft: `${row.events.length === 4 ? 0 : (4 - row.events.length) * 25 / 2}%`
+                }}
+              ></div>
             )}
 
             {/* Direction chevron in the middle of the row */}
