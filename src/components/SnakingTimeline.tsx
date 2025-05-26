@@ -71,7 +71,7 @@ export const SnakingTimeline = ({ events, onEventClick }: SnakingTimelineProps) 
 
             {/* Vertical connecting line to next row */}
             {rowIndex < rows.length - 1 && (
-              <div className={`absolute ${row.isReversed ? 'left-0' : 'right-0'} w-0.5 h-8 bg-gradient-to-b from-purple-400 to-cyan-400 top-2 z-0`}></div>
+              <div className={`absolute ${row.isReversed ? 'left-0' : 'right-0'} w-0.5 h-16 bg-gradient-to-b from-purple-400 to-cyan-400 top-2 z-0`}></div>
             )}
           </div>
         ))}
