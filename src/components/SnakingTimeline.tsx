@@ -107,11 +107,9 @@ export const SnakingTimeline = ({ events, onEventClick }: SnakingTimelineProps) 
               <div 
                 className="absolute top-2 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 z-0"
                 style={{
-                  left: row.isReversed && rowIndex < rows.length - 1 ? '0px' : `calc(12.5% + 8px)`,
-                  right: row.isReversed && rowIndex < rows.length - 1 ? `calc(12.5% + 8px)` : '0px',
-                  width: rowIndex < rows.length - 1 
-                    ? `calc(${(row.events.length - 1) * 25}% + 12.5% - 8px)` 
-                    : `calc(${(row.events.length - 1) * 25}% - 16px)`
+                  left: rowIndex < rows.length - 1 && row.isReversed ? '0px' : `calc(12.5% + 8px)`,
+                  right: rowIndex < rows.length - 1 && !row.isReversed ? '0px' : `calc(12.5% + 8px)`,
+                  width: 'auto'
                 }}
               ></div>
             )}
