@@ -99,9 +99,25 @@ const getRelatedLinks = (event: string) => {
   return links[event] || [];
 };
 
+const formatLinkText = (url: string): string => {
+  if (url.includes('arxiv.org')) return 'arXiv Paper';
+  if (url.includes('wikipedia.org')) return 'Wikipedia Article';
+  if (url.includes('openai.com')) return 'OpenAI Research';
+  if (url.includes('anthropic.com')) return 'Anthropic Research';
+  if (url.includes('plato.stanford.edu')) return 'Stanford Encyclopedia';
+  if (url.includes('deepmind.google')) return 'Google DeepMind';
+  if (url.includes('nature.com')) return 'Nature Article';
+  if (url.includes('britannica.com')) return 'Britannica Article';
+  return 'External Link';
+};
+
 export const EventModal = ({ event, onClose }: EventModalProps) => {
   const colorClasses = getCategoryColor(event.category);
-  const relatedLinks = getRelatedLinks(event.event);
+  
+  // Use event references first, then fallback to hardcoded links
+  const eventReferences = event.references || [];
+  const fallbackLinks = getRelatedLinks(event.event);
+  const allLinks = eventReferences.length > 0 ? eventReferences : fallbackLinks;
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in">
@@ -132,11 +148,11 @@ export const EventModal = ({ event, onClose }: EventModalProps) => {
           </div>
           
           {/* Related Links */}
-          {relatedLinks.length > 0 && (
+          {allLinks.length > 0 && (
             <div className="mt-8 p-4 bg-slate-700/50 rounded-lg">
               <h4 className="text-lg font-semibold text-white mb-3">Related Resources</h4>
               <div className="space-y-2">
-                {relatedLinks.map((link, index) => (
+                {allLinks.map((link, index) => (
                   <a
                     key={index}
                     href={link}
@@ -144,13 +160,7 @@ export const EventModal = ({ event, onClose }: EventModalProps) => {
                     rel="noopener noreferrer"
                     className="block text-blue-400 hover:text-blue-300 transition-colors underline text-sm"
                   >
-                    {link.includes('arxiv.org') ? 'arXiv Paper' : 
-                     link.includes('wikipedia.org') ? 'Wikipedia Article' :
-                     link.includes('openai.com') ? 'OpenAI Research' :
-                     link.includes('anthropic.com') ? 'Anthropic Research' :
-                     link.includes('plato.stanford.edu') ? 'Stanford Encyclopedia' :
-                     link.includes('deepmind.google') ? 'Google DeepMind' :
-                     'External Link'} →
+                    {formatLinkText(link)} →
                   </a>
                 ))}
               </div>

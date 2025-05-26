@@ -1,9 +1,9 @@
-
 export interface TimelineEventData {
   year: string;
   event: string;
   description: string;
   category: 'philosophical-foundations' | 'early-ai' | 'symbolic-ai' | 'ai-winter' | 'machine-learning' | 'rise-of-statistical-methods' | 'technological-milestone' | 'generative-ai' | 'transformers' | 'ai-applications' | 'ai-ethics' | 'multimodal-ai' | 'open-source-ai' | 'robotics' | 'ai-policy' | 'cultural-impact' | 'speculative' | 'government-initiative';
+  references?: string[];
 }
 
 // This is now the baseline data that all users will see by default
@@ -42,7 +42,11 @@ export const timelineData: TimelineEventData[] = [
     year: "1950",
     event: "Turing Test",
     description: "Alan Turing proposed the Turing Test as a measure of machine intelligence, suggesting that if a machine could converse indistinguishably from a human, it could be considered intelligent.",
-    category: 'philosophical-foundations'
+    category: 'philosophical-foundations',
+    references: [
+      "https://en.wikipedia.org/wiki/Turing_test",
+      "https://plato.stanford.edu/entries/turing-test/"
+    ]
   },
   {
     year: "1951",
@@ -66,7 +70,11 @@ export const timelineData: TimelineEventData[] = [
     year: "1956",
     event: "Dartmouth Conference",
     description: "The founding moment of AI as a field; organized by John McCarthy, Marvin Minsky, Nathaniel Rochester, and Claude Shannon.",
-    category: 'early-ai'
+    category: 'early-ai',
+    references: [
+      "https://en.wikipedia.org/wiki/Dartmouth_workshop",
+      "https://www.britannica.com/event/Dartmouth-Conference"
+    ]
   },
   {
     year: "1957",
@@ -108,7 +116,11 @@ export const timelineData: TimelineEventData[] = [
     year: "1965",
     event: "ELIZA Chatbot",
     description: "Joseph Weizenbaum created ELIZA, an early natural language processing program that simulated conversation, marking the beginning of human-computer interaction research.",
-    category: 'early-ai'
+    category: 'early-ai',
+    references: [
+      "https://en.wikipedia.org/wiki/ELIZA",
+      "https://web.njit.edu/~ronkowit/eliza.html"
+    ]
   },
   {
     year: "1966",
@@ -174,7 +186,11 @@ export const timelineData: TimelineEventData[] = [
     year: "1980",
     event: "Chinese Room Argument",
     description: "Proposed by John Searle; a philosophical critique of the notion that symbol manipulation equals understanding or consciousness.",
-    category: 'philosophical-foundations'
+    category: 'philosophical-foundations',
+    references: [
+      "https://plato.stanford.edu/entries/chinese-room/",
+      "https://en.wikipedia.org/wiki/Chinese_room"
+    ]
   },
   {
     year: "1981",
@@ -210,7 +226,11 @@ export const timelineData: TimelineEventData[] = [
     year: "1986",
     event: "Backpropagation Popularized",
     description: "David Rumelhart, Geoffrey Hinton, and Ronald Williams popularized the use of backpropagation for training neural networks, making deep learning feasible.",
-    category: 'machine-learning'
+    category: 'machine-learning',
+    references: [
+      "https://www.nature.com/articles/323533a0",
+      "https://en.wikipedia.org/wiki/Backpropagation"
+    ]
   },
   {
     year: "1987",
@@ -252,7 +272,11 @@ export const timelineData: TimelineEventData[] = [
     year: "1992",
     event: "Support Vector Machines (SVMs)",
     description: "Vladimir Vapnik and Alexey Chervonenkis introduced SVMs, a powerful algorithm for classification and regression, marking a shift towards more robust machine learning models.",
-    category: 'machine-learning'
+    category: 'machine-learning',
+    references: [
+      "https://en.wikipedia.org/wiki/Support-vector_machine",
+      "https://scikit-learn.org/stable/modules/svm.html"
+    ]
   },
   {
     year: "1993",
@@ -288,7 +312,11 @@ export const timelineData: TimelineEventData[] = [
     year: "1997",
     event: "Long Short-Term Memory (LSTM)",
     description: "Sepp Hochreiter and Jürgen Schmidhuber introduced LSTMs, a type of RNN that overcomes the vanishing gradient problem, making learning over long sequences possible.",
-    category: 'machine-learning'
+    category: 'machine-learning',
+    references: [
+      "https://en.wikipedia.org/wiki/Long_short-term_memory",
+      "https://www.bioinf.jku.at/publications/older/2604.pdf"
+    ]
   },
   {
     year: "1998",
@@ -348,13 +376,21 @@ export const timelineData: TimelineEventData[] = [
     year: "2006",
     event: "Deep Learning Renaissance",
     description: "Geoffrey Hinton et al. introduced Deep Belief Networks, sparking renewed interest in training deeper neural networks, leading to the modern deep learning boom.",
-    category: 'technological-milestone'
+    category: 'technological-milestone',
+    references: [
+      "https://www.cs.toronto.edu/~hinton/science.pdf",
+      "https://en.wikipedia.org/wiki/Deep_learning"
+    ]
   },
   {
     year: "2007",
     event: "NVIDIA launch CUDA",
     description: "NVIDIA launched CUDA, a programming model that made it much easier for researchers to write GPU-accelerated code in C/C++, a major turning point for deep learning.",
-    category: 'technological-milestone'
+    category: 'technological-milestone',
+    references: [
+      "https://developer.nvidia.com/cuda-zone",
+      "https://en.wikipedia.org/wiki/CUDA"
+    ]
   },
   {
     year: "2008",
@@ -366,7 +402,11 @@ export const timelineData: TimelineEventData[] = [
     year: "2009",
     event: "ImageNet Launched",
     description: "A large-scale image dataset that provided the foundation for breakthroughs in computer vision.",
-    category: 'technological-milestone'
+    category: 'technological-milestone',
+    references: [
+      "http://www.image-net.org/",
+      "https://en.wikipedia.org/wiki/ImageNet"
+    ]
   },
   {
     year: "2010",
@@ -384,7 +424,11 @@ export const timelineData: TimelineEventData[] = [
     year: "2012",
     event: "AlexNet",
     description: "A deep CNN by Alex Krizhevsky et al. that dramatically improved image classification performance on ImageNet, marking the mainstream success of deep learning with GPU-powered models.",
-    category: 'technological-milestone'
+    category: 'technological-milestone',
+    references: [
+      "https://papers.nips.cc/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html",
+      "https://en.wikipedia.org/wiki/AlexNet"
+    ]
   },
   {
     year: "2013",
@@ -396,7 +440,11 @@ export const timelineData: TimelineEventData[] = [
     year: "2014",
     event: "GANs Introduced",
     description: "Ian Goodfellow et al. introduced Generative Adversarial Networks, a new class of generative models that could create high-quality images, text, and other media.",
-    category: 'generative-ai'
+    category: 'generative-ai',
+    references: [
+      "https://arxiv.org/abs/1406.2661",
+      "https://en.wikipedia.org/wiki/Generative_adversarial_network"
+    ]
   },
   {
     year: "2014",
@@ -420,7 +468,11 @@ export const timelineData: TimelineEventData[] = [
     year: "2017",
     event: "Attention Is All You Need",
     description: "Famous paper by Vaswani et al. introduced the Transformer architecture, revolutionizing NLP with its attention mechanisms for parallel data processing.",
-    category: 'transformers'
+    category: 'transformers',
+    references: [
+      "https://arxiv.org/abs/1706.03762",
+      "https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html"
+    ]
   },
   {
     year: "2018",
@@ -432,7 +484,11 @@ export const timelineData: TimelineEventData[] = [
     year: "2018",
     event: "GPT-1",
     description: "OpenAI released the first Generative Pre-trained Transformer, showing strong zero-shot performance in a variety of NLP tasks.",
-    category: 'generative-ai'
+    category: 'generative-ai',
+    references: [
+      "https://openai.com/research/language-unsupervised",
+      "https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf"
+    ]
   },
   {
     year: "2018",
@@ -444,7 +500,11 @@ export const timelineData: TimelineEventData[] = [
     year: "2019",
     event: "GPT-2",
     description: "A significantly larger version of GPT-1; initially withheld due to concerns about misuse, it showcased impressive text generation capabilities.",
-    category: 'generative-ai'
+    category: 'generative-ai',
+    references: [
+      "https://openai.com/research/better-language-models",
+      "https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf"
+    ]
   },
   {
     year: "2019",
@@ -456,13 +516,21 @@ export const timelineData: TimelineEventData[] = [
     year: "2020",
     event: "GPT-3",
     description: "OpenAI released GPT-3, a 175 billion parameter model that set a new standard for general-purpose text generation, enabling a wide range of applications.",
-    category: 'generative-ai'
+    category: 'generative-ai',
+    references: [
+      "https://arxiv.org/abs/2005.14165",
+      "https://openai.com/research/language-models-are-few-shot-learners"
+    ]
   },
   {
     year: "2020",
     event: "Launch of DALL-E",
     description: "OpenAI presented DALL-E, showing how transformer models could generate images from text prompts, opening a new era of creative AI.",
-    category: 'generative-ai'
+    category: 'generative-ai',
+    references: [
+      "https://openai.com/research/dall-e",
+      "https://arxiv.org/abs/2102.12092"
+    ]
   },
   {
     year: "2020",
@@ -492,7 +560,11 @@ export const timelineData: TimelineEventData[] = [
     year: "2022",
     event: "Launch of ChatGPT",
     description: "OpenAI launched ChatGPT, a conversational AI based on GPT-3.5, marking a major milestone in public interaction with large language models.",
-    category: 'generative-ai'
+    category: 'generative-ai',
+    references: [
+      "https://openai.com/blog/chatgpt",
+      "https://chat.openai.com/"
+    ]
   },
   {
     year: "2022",
@@ -516,7 +588,11 @@ export const timelineData: TimelineEventData[] = [
     year: "2023",
     event: "GPT-4",
     description: "A multimodal model with improved reasoning, factuality, and image understanding, expanding the capabilities of AI in handling text and images together.",
-    category: 'multimodal-ai'
+    category: 'multimodal-ai',
+    references: [
+      "https://arxiv.org/abs/2303.08774",
+      "https://openai.com/research/gpt-4"
+    ]
   },
   {
     year: "2023",
@@ -546,13 +622,21 @@ export const timelineData: TimelineEventData[] = [
     year: "2024",
     event: "Gemini by Google",
     description: "Google DeepMind launched Gemini 1, a family of powerful multimodal models rivaling GPT-4.",
-    category: 'generative-ai'
+    category: 'generative-ai',
+    references: [
+      "https://deepmind.google/technologies/gemini/",
+      "https://arxiv.org/abs/2312.11805"
+    ]
   },
   {
     year: "2024",
     event: "Claude 3 by Anthropic",
     description: "Anthropic released Claude 3 models with significant improvements in reasoning, language fluency, and safety, used in AI coding tools like Cursor and Lovable.",
-    category: 'generative-ai'
+    category: 'generative-ai',
+    references: [
+      "https://www.anthropic.com/news/claude-3-family",
+      "https://www.anthropic.com/claude"
+    ]
   },
   {
     year: "2024",

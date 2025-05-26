@@ -1,4 +1,3 @@
-
 import { TimelineEventData } from "@/data/timelineData";
 
 // Valid categories for validation
@@ -24,14 +23,15 @@ const VALID_CATEGORIES = [
 ] as const;
 
 export const exportToCSV = (events: TimelineEventData[]): void => {
-  const headers = ['year', 'event', 'description', 'category'];
+  const headers = ['year', 'event', 'description', 'category', 'references'];
   const csvContent = [
     headers.join(','),
     ...events.map(event => [
       `"${event.year.replace(/"/g, '""')}"`,
       `"${event.event.replace(/"/g, '""')}"`,
       `"${event.description.replace(/"/g, '""')}"`,
-      `"${event.category.replace(/"/g, '""')}"`
+      `"${event.category.replace(/"/g, '""')}"`,
+      `"${event.references ? event.references.join(';') : ''}"`
     ].join(','))
   ].join('\n');
 
@@ -58,6 +58,7 @@ export const validateCSVContent = (content: string): { isValid: boolean; errors:
   // Validate header
   const header = lines[0].toLowerCase().replace(/"/g, '');
   const expectedHeaders = ['year', 'event', 'description', 'category'];
+  const optionalHeaders = ['references'];
   const actualHeaders = header.split(',').map(h => h.trim());
   
   if (!expectedHeaders.every(h => actualHeaders.includes(h))) {
@@ -69,6 +70,7 @@ export const validateCSVContent = (content: string): { isValid: boolean; errors:
   const eventIndex = actualHeaders.indexOf('event');
   const descriptionIndex = actualHeaders.indexOf('description');
   const categoryIndex = actualHeaders.indexOf('category');
+  const referencesIndex = actualHeaders.indexOf('references');
 
   const data: TimelineEventData[] = [];
   
@@ -81,7 +83,7 @@ export const validateCSVContent = (content: string): { isValid: boolean; errors:
     const fields = parseCSVRow(line);
     
     if (fields.length < 4) {
-      errors.push(`Row ${i + 1}: Insufficient columns (expected 4, got ${fields.length})`);
+      errors.push(`Row ${i + 1}: Insufficient columns (expected at least 4, got ${fields.length})`);
       continue;
     }
 
@@ -89,6 +91,7 @@ export const validateCSVContent = (content: string): { isValid: boolean; errors:
     const event = fields[eventIndex]?.trim();
     const description = fields[descriptionIndex]?.trim();
     const category = fields[categoryIndex]?.trim();
+    const referencesField = referencesIndex !== -1 ? fields[referencesIndex]?.trim() : '';
 
     // Validate required fields
     if (!year) errors.push(`Row ${i + 1}: Year is required`);
@@ -106,6 +109,21 @@ export const validateCSVContent = (content: string): { isValid: boolean; errors:
       errors.push(`Row ${i + 1}: Invalid category "${category}". Must be one of: ${VALID_CATEGORIES.join(', ')}`);
     }
 
+    // Parse references if present
+    let references: string[] | undefined;
+    if (referencesField) {
+      references = referencesField.split(';').map(ref => ref.trim()).filter(ref => ref.length > 0);
+      
+      // Validate URLs
+      references.forEach((ref, index) => {
+        try {
+          new URL(ref);
+        } catch {
+          errors.push(`Row ${i + 1}: Reference ${index + 1} is not a valid URL: "${ref}"`);
+        }
+      });
+    }
+
     // Validate text length (security measure)
     if (event && event.length > 500) {
       errors.push(`Row ${i + 1}: Event title too long (max 500 characters)`);
@@ -120,12 +138,18 @@ export const validateCSVContent = (content: string): { isValid: boolean; errors:
     }
 
     if (year && event && description && category && errors.length === 0) {
-      data.push({
+      const eventData: TimelineEventData = {
         year,
         event,
         description,
         category: category as TimelineEventData['category']
-      });
+      };
+      
+      if (references && references.length > 0) {
+        eventData.references = references;
+      }
+      
+      data.push(eventData);
     }
   }
 

@@ -181,9 +181,10 @@ export const CSVManager = ({ events, onImport, onReset }: CSVManagerProps) => {
           <span className="font-medium">CSV Format Requirements:</span>
         </div>
         <ul className="ml-6 space-y-1">
-          <li>• Headers: year, event, description, category</li>
+          <li>• Headers: year, event, description, category, references (optional)</li>
           <li>• Year format: YYYY, YYYY-YYYY, or YYYYs</li>
           <li>• Valid categories: philosophical-foundations, early-ai, symbolic-ai, etc.</li>
+          <li>• References: Multiple URLs separated by semicolons (;)</li>
           <li>• Maximum file size: 5MB</li>
         </ul>
       </div>
