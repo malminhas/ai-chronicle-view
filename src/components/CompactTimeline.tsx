@@ -27,21 +27,33 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
           {events.map((_, index) => {
             if (index === events.length - 1) return null;
             
-            // Calculate grid positions
+            // Calculate grid positions for snake pattern
             const cols = 5; // xl:grid-cols-5 is the largest grid
             const currentRow = Math.floor(index / cols);
             const currentCol = index % cols;
-            const nextRow = Math.floor((index + 1) / cols);
-            const nextCol = (index + 1) % cols;
+            const nextIndex = index + 1;
+            const nextRow = Math.floor(nextIndex / cols);
+            const nextCol = nextIndex % cols;
             
-            // Calculate approximate positions (these will be rough estimates)
+            // Calculate approximate positions
             const cellWidth = 100 / cols;
             const cellHeight = 200; // Approximate height per row
             
             const x1 = `${currentCol * cellWidth + cellWidth / 2}%`;
             const y1 = currentRow * cellHeight + 60; // Offset for dot position
-            const x2 = `${nextCol * cellWidth + cellWidth / 2}%`;
-            const y2 = nextRow * cellHeight + 60;
+            
+            let x2, y2;
+            
+            // Snake logic: if we're at the end of a row, drop down to the start of next row
+            if (currentRow !== nextRow) {
+              // Drop down to next row, first column
+              x2 = `${cellWidth / 2}%`;
+              y2 = nextRow * cellHeight + 60;
+            } else {
+              // Continue horizontally in the same row
+              x2 = `${nextCol * cellWidth + cellWidth / 2}%`;
+              y2 = nextRow * cellHeight + 60;
+            }
             
             return (
               <line
