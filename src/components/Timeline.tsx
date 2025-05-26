@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TimelineEvent } from "./TimelineEvent";
 import { EventModal } from "./EventModal";
 import { References } from "./References";
@@ -13,13 +12,47 @@ export type { TimelineEventData };
 
 type ViewType = 'detailed' | 'horizontal' | 'compact';
 
+const STORAGE_KEY = 'ai-timeline-data';
+
 export const Timeline = () => {
   const [selectedEvent, setSelectedEvent] = useState<TimelineEventData | null>(null);
   const [currentView, setCurrentView] = useState<ViewType>('compact');
-  const [events, setEvents] = useState<TimelineEventData[]>(timelineData);
+  const [events, setEvents] = useState<TimelineEventData[]>(() => {
+    // Try to load data from localStorage on initial render
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsedData = JSON.parse(stored);
+        // Validate that it's an array with the right structure
+        if (Array.isArray(parsedData) && parsedData.length > 0 && parsedData[0].year && parsedData[0].event) {
+          return parsedData;
+        }
+      }
+    } catch (error) {
+      console.log('Failed to load timeline data from localStorage:', error);
+    }
+    // Fall back to default data
+    return timelineData;
+  });
 
   const handleImport = (importedEvents: TimelineEventData[]) => {
     setEvents(importedEvents);
+    // Persist to localStorage
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(importedEvents));
+    } catch (error) {
+      console.error('Failed to save timeline data to localStorage:', error);
+    }
+  };
+
+  const handleReset = () => {
+    setEvents(timelineData);
+    // Clear localStorage to revert to original data
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (error) {
+      console.error('Failed to clear timeline data from localStorage:', error);
+    }
   };
 
   return (
@@ -98,7 +131,7 @@ export const Timeline = () => {
 
       {/* CSV Management - moved to bottom */}
       <div className="mt-12">
-        <CSVManager events={events} onImport={handleImport} />
+        <CSVManager events={events} onImport={handleImport} onReset={handleReset} />
       </div>
 
       {/* Event modal */}

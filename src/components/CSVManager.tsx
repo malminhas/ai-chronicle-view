@@ -1,17 +1,17 @@
-
 import { useState, useRef } from "react";
 import { TimelineEventData } from "@/data/timelineData";
 import { exportToCSV, validateCSVContent } from "@/utils/csvUtils";
 import { Button } from "@/components/ui/button";
-import { Download, Upload, AlertCircle, CheckCircle } from "lucide-react";
+import { Download, Upload, AlertCircle, CheckCircle, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface CSVManagerProps {
   events: TimelineEventData[];
   onImport: (events: TimelineEventData[]) => void;
+  onReset?: () => void;
 }
 
-export const CSVManager = ({ events, onImport }: CSVManagerProps) => {
+export const CSVManager = ({ events, onImport, onReset }: CSVManagerProps) => {
   const [isImporting, setIsImporting] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -35,6 +35,16 @@ export const CSVManager = ({ events, onImport }: CSVManagerProps) => {
 
   const handleImportClick = () => {
     fileInputRef.current?.click();
+  };
+
+  const handleReset = () => {
+    if (onReset) {
+      onReset();
+      toast({
+        title: "Reset Successful",
+        description: "Timeline data restored to original version",
+      });
+    }
   };
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,6 +138,18 @@ export const CSVManager = ({ events, onImport }: CSVManagerProps) => {
             <Upload className="w-4 h-4" />
             {isImporting ? "Importing..." : "Import CSV"}
           </Button>
+
+          {onReset && (
+            <Button
+              onClick={handleReset}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              <RotateCcw className="w-4 h-4" />
+              Reset to Original
+            </Button>
+          )}
         </div>
       </div>
 
