@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { TimelineEvent } from "./TimelineEvent";
 import { EventModal } from "./EventModal";
@@ -40,6 +41,8 @@ export const Timeline = () => {
     // Persist user customizations to localStorage
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(importedEvents));
+      // Dispatch custom event to notify other components
+      window.dispatchEvent(new CustomEvent('timeline-data-changed'));
     } catch (error) {
       console.error('Failed to save timeline data to localStorage:', error);
     }
@@ -50,6 +53,8 @@ export const Timeline = () => {
     // Clear localStorage to revert to the updated baseline data
     try {
       localStorage.removeItem(STORAGE_KEY);
+      // Dispatch custom event to notify other components
+      window.dispatchEvent(new CustomEvent('timeline-data-changed'));
     } catch (error) {
       console.error('Failed to clear timeline data from localStorage:', error);
     }

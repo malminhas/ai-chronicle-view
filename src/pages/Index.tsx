@@ -10,19 +10,48 @@ const Index = () => {
   const [events, setEvents] = useState(timelineData);
 
   useEffect(() => {
-    // Try to load user customizations from localStorage (same logic as Timeline component)
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsedData = JSON.parse(stored);
-        // Validate that it's an array with the right structure
-        if (Array.isArray(parsedData) && parsedData.length > 0 && parsedData[0].year && parsedData[0].event) {
-          setEvents(parsedData);
+    // Function to load data from localStorage
+    const loadStorageData = () => {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          const parsedData = JSON.parse(stored);
+          // Validate that it's an array with the right structure
+          if (Array.isArray(parsedData) && parsedData.length > 0 && parsedData[0].year && parsedData[0].event) {
+            setEvents(parsedData);
+          }
+        } else {
+          // If no stored data, use the default timeline data
+          setEvents(timelineData);
         }
+      } catch (error) {
+        console.log('Failed to load timeline data from localStorage:', error);
+        setEvents(timelineData);
       }
-    } catch (error) {
-      console.log('Failed to load timeline data from localStorage:', error);
-    }
+    };
+
+    // Load data initially
+    loadStorageData();
+
+    // Listen for storage changes
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY) {
+        loadStorageData();
+      }
+    };
+
+    // Listen for custom storage events (for changes within the same tab)
+    const handleCustomStorageChange = () => {
+      loadStorageData();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('timeline-data-changed', handleCustomStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('timeline-data-changed', handleCustomStorageChange);
+    };
   }, []);
 
   const totalEvents = events.length;
