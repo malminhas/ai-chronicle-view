@@ -74,7 +74,7 @@ export const SnakingTimeline = ({ events, onEventClick }: SnakingTimelineProps) 
               <div className={`absolute ${row.isReversed ? 'left-0' : 'right-0'} w-0.5 bg-gradient-to-b from-purple-400 to-cyan-400 z-0`} 
                    style={{ 
                      top: '8px', 
-                     height: 'calc(100% + 32px - 8px)'
+                     height: 'calc(100% + 40px - 8px)'
                    }}></div>
             )}
           </div>
