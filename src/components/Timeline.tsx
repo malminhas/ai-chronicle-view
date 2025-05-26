@@ -7,7 +7,8 @@ import { CompactTimeline } from "./CompactTimeline";
 import { SnakingTimeline } from "./SnakingTimeline";
 import { CSVManager } from "./CSVManager";
 import { timelineData, TimelineEventData } from "@/data/timelineData";
-import { List, Layout, Grid3X3 } from "lucide-react";
+import { logCurrentStorageData, extractDataFromLocalStorage } from "@/utils/syncLocalStorageToJson";
+import { List, Layout, Grid3X3, Info } from "lucide-react";
 
 export type { TimelineEventData };
 
@@ -36,6 +37,23 @@ export const Timeline = () => {
     return timelineData;
   });
 
+  // Log current storage data on component mount for debugging
+  useEffect(() => {
+    console.log('=== Timeline Data Analysis ===');
+    logCurrentStorageData();
+    
+    const storageData = extractDataFromLocalStorage();
+    if (storageData) {
+      console.log('Sample storage event with references:', 
+        storageData.find(event => event.references && event.references.length > 0)
+      );
+    }
+    
+    console.log('Current events state count:', events.length);
+    const eventsWithRefs = events.filter(event => event.references && event.references.length > 0);
+    console.log('Events with references in current state:', eventsWithRefs.length);
+  }, []);
+
   const handleImport = (importedEvents: TimelineEventData[]) => {
     setEvents(importedEvents);
     // Persist user customizations to localStorage
@@ -57,6 +75,21 @@ export const Timeline = () => {
       window.dispatchEvent(new CustomEvent('timeline-data-changed'));
     } catch (error) {
       console.error('Failed to clear timeline data from localStorage:', error);
+    }
+  };
+
+  const handleSyncToJson = () => {
+    const storageData = extractDataFromLocalStorage();
+    if (storageData) {
+      console.log('=== Data ready for JSON sync ===');
+      console.log('Copy this data to update your timelineEvents.json:');
+      console.log(JSON.stringify(storageData, null, 2));
+      
+      // Also show a summary
+      const withRefs = storageData.filter(event => event.references && event.references.length > 0);
+      console.log(`Total events: ${storageData.length}, Events with references: ${withRefs.length}`);
+    } else {
+      console.log('No localStorage data found to sync');
     }
   };
 
@@ -98,6 +131,15 @@ export const Timeline = () => {
         >
           <List className="w-5 h-5" />
           <span className="text-sm font-medium">Detailed View</span>
+        </button>
+
+        <button
+          onClick={handleSyncToJson}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700/50"
+          title="Log localStorage data to console for JSON sync"
+        >
+          <Info className="w-5 h-5" />
+          <span className="text-sm font-medium">Debug Storage</span>
         </button>
       </div>
 
