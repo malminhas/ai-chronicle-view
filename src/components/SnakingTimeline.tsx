@@ -108,7 +108,7 @@ export const SnakingTimeline = ({ events, onEventClick }: SnakingTimelineProps) 
             )}
 
             {/* Direction chevron in the middle of the row */}
-            {row.events.length > 1 && rowIndex < rows.length - 1 && (
+            {row.events.length > 1 && (
               <div className="absolute top-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
                 <div className="bg-slate-800/90 backdrop-blur-sm rounded-full p-1.5 border border-slate-600 shadow-lg animate-pulse">
                   {row.isReversed ? (
