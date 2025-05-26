@@ -1,5 +1,6 @@
 
 import { Timeline } from "@/components/Timeline";
+import { About } from "@/components/About";
 
 const Index = () => {
   return (
@@ -15,6 +16,7 @@ const Index = () => {
         </div>
         <Timeline />
       </div>
+      <About />
     </div>
   );
 };
