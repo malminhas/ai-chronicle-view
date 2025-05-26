@@ -19,7 +19,8 @@ const VALID_CATEGORIES = [
   'robotics',
   'ai-policy',
   'cultural-impact',
-  'speculative'
+  'speculative',
+  'government-initiative'
 ] as const;
 
 export const exportToCSV = (events: TimelineEventData[]): void => {
