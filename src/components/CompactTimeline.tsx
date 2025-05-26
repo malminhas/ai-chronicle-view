@@ -45,8 +45,8 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
         <svg 
           className="absolute inset-0 w-full h-full pointer-events-none" 
           style={{ zIndex: 1 }}
-          viewBox={`0 0 100 ${containerHeight}`}
-          preserveAspectRatio="none"
+          width="100%"
+          height={containerHeight}
         >
           <defs>
             <linearGradient id="timelineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -64,10 +64,6 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
             const nextRow = Math.floor(nextIndex / cols);
             const nextCol = nextIndex % cols;
             
-            // Calculate positions as percentages
-            const cellWidth = 100 / cols;
-            const rowHeight = 200;
-            
             // For snaking pattern, adjust column positions for odd rows (right-to-left)
             const isCurrentRowOdd = currentRow % 2 === 1;
             const isNextRowOdd = nextRow % 2 === 1;
@@ -75,6 +71,11 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
             // Adjust column positions for snaking
             const adjustedCurrentCol = isCurrentRowOdd ? (cols - 1 - currentCol) : currentCol;
             const adjustedNextCol = isNextRowOdd ? (cols - 1 - nextCol) : nextCol;
+            
+            // Calculate actual pixel positions
+            const containerWidth = windowWidth > 0 ? Math.min(windowWidth - 32, 1152) : 1152; // max-width with padding
+            const cellWidth = containerWidth / cols;
+            const rowHeight = 200;
             
             const x1 = adjustedCurrentCol * cellWidth + cellWidth / 2;
             const y1 = currentRow * rowHeight + 100; // Center of the dot
@@ -92,7 +93,7 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
                 pathData = `M ${x1} ${y1} L ${leftEdge} ${y1} L ${leftEdge} ${y2} L ${x2} ${y2}`;
               } else {
                 // Current row is left-to-right, so go to right edge then down then to last position
-                const rightEdge = 100 - cellWidth / 2;
+                const rightEdge = containerWidth - cellWidth / 2;
                 pathData = `M ${x1} ${y1} L ${rightEdge} ${y1} L ${rightEdge} ${y2} L ${x2} ${y2}`;
               }
               
@@ -139,7 +140,6 @@ export const CompactTimeline = ({ events, onEventClick }: CompactTimelineProps) 
             const row = Math.floor(index / cols);
             const col = index % cols;
             const isRowOdd = row % 2 === 1;
-            const adjustedCol = isRowOdd ? (cols - 1 - col) : col;
             
             return (
               <div
