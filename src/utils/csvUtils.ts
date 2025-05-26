@@ -95,9 +95,9 @@ export const validateCSVContent = (content: string): { isValid: boolean; errors:
     if (!description) errors.push(`Row ${i + 1}: Description is required`);
     if (!category) errors.push(`Row ${i + 1}: Category is required`);
 
-    // Validate year format
-    if (year && !/^\d{4}(-\d{4})?s?$/.test(year)) {
-      errors.push(`Row ${i + 1}: Year must be in format YYYY, YYYY-YYYY, or YYYYs`);
+    // Validate year format - updated to handle "1950s-1980s" format
+    if (year && !/^\d{4}(s)?(-\d{4}(s)?)?s?$/.test(year)) {
+      errors.push(`Row ${i + 1}: Year must be in format YYYY, YYYY-YYYY, YYYYs, or YYYYs-YYYYs`);
     }
 
     // Validate category
