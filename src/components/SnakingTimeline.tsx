@@ -1,5 +1,6 @@
 
 import { useState, useCallback } from "react";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 import { TimelineEventData } from "@/data/timelineData";
 import { getCategoryColor } from "@/utils/categoryUtils";
 
@@ -104,6 +105,19 @@ export const SnakingTimeline = ({ events, onEventClick }: SnakingTimelineProps) 
             {/* Horizontal connecting line across all dots in the row */}
             {row.events.length > 1 && (
               <div className="absolute top-2 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 z-0"></div>
+            )}
+
+            {/* Direction chevron in the middle of the row */}
+            {row.events.length > 1 && rowIndex < rows.length - 1 && (
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+                <div className="bg-slate-800/90 backdrop-blur-sm rounded-full p-1.5 border border-slate-600 shadow-lg animate-pulse">
+                  {row.isReversed ? (
+                    <ChevronLeft className="w-4 h-4 text-purple-400" />
+                  ) : (
+                    <ChevronRight className="w-4 h-4 text-blue-400" />
+                  )}
+                </div>
+              </div>
             )}
 
             {/* Vertical connecting line to next row */}
