@@ -18,7 +18,7 @@ export const Timeline = () => {
   const [selectedEvent, setSelectedEvent] = useState<TimelineEventData | null>(null);
   const [currentView, setCurrentView] = useState<ViewType>('compact');
   const [events, setEvents] = useState<TimelineEventData[]>(() => {
-    // Try to load data from localStorage for user customizations
+    // Try to load user customizations from localStorage
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
@@ -31,13 +31,13 @@ export const Timeline = () => {
     } catch (error) {
       console.log('Failed to load timeline data from localStorage:', error);
     }
-    // Fall back to the baseline data (which is now your imported dataset)
+    // Use the updated baseline data (which now includes your imported data)
     return timelineData;
   });
 
   const handleImport = (importedEvents: TimelineEventData[]) => {
     setEvents(importedEvents);
-    // Persist to localStorage for user customizations
+    // Persist user customizations to localStorage
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(importedEvents));
     } catch (error) {
@@ -47,7 +47,7 @@ export const Timeline = () => {
 
   const handleReset = () => {
     setEvents(timelineData);
-    // Clear localStorage to revert to baseline data
+    // Clear localStorage to revert to the updated baseline data
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {

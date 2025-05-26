@@ -9,15 +9,99 @@ export interface TimelineEventData {
 // This is now the baseline data that all users will see by default
 export const timelineData: TimelineEventData[] = [
   {
+    year: "1936",
+    event: "Alan Turing's \"On Computable Numbers\"",
+    description: "Alan Turing publishes his foundational paper introducing the concept of the Turing machine, establishing the theoretical basis for computation and what would later become artificial intelligence.",
+    category: 'philosophical-foundations'
+  },
+  {
+    year: "1943",
+    event: "McCulloch-Pitts Neuron",
+    description: "Warren McCulloch and Walter Pitts publish \"A Logical Calculus of Ideas Immanent in Nervous Activity,\" introducing the first mathematical model of artificial neurons.",
+    category: 'early-ai'
+  },
+  {
+    year: "1945",
+    event: "Vannevar Bush's Memex",
+    description: "Vannevar Bush describes the Memex in \"As We May Think,\" envisioning a device that could store and retrieve information, prefiguring concepts of artificial intelligence and hypertext.",
+    category: 'philosophical-foundations'
+  },
+  {
+    year: "1948",
+    event: "Claude Shannon's Information Theory",
+    description: "Claude Shannon publishes \"A Mathematical Theory of Communication,\" laying the foundation for information theory and digital communication, crucial for AI development.",
+    category: 'philosophical-foundations'
+  },
+  {
+    year: "1949",
+    event: "Donald Hebb's Learning Rule",
+    description: "Donald Hebb introduces Hebbian learning in \"The Organization of Behavior,\" proposing that neural pathways are strengthened through repeated use, influencing later neural network models.",
+    category: 'machine-learning'
+  },
+  {
     year: "1950",
     event: "Turing Test",
     description: "Alan Turing proposed the Turing Test as a measure of machine intelligence, suggesting that if a machine could converse indistinguishably from a human, it could be considered intelligent.",
     category: 'philosophical-foundations'
   },
   {
+    year: "1951",
+    event: "First Neural Network Machine",
+    description: "Marvin Minsky and Dean Edmonds build the first neural network machine, SNARC (Stochastic Neural Analog Reinforcement Calculator), using 3,000 vacuum tubes to simulate 40 neurons.",
+    category: 'early-ai'
+  },
+  {
+    year: "1952",
+    event: "Arthur Samuel's Checkers Program",
+    description: "Arthur Samuel creates a checkers-playing program for IBM, one of the first programs to demonstrate machine learning by improving its performance through self-play.",
+    category: 'machine-learning'
+  },
+  {
+    year: "1955",
+    event: "Logic Theorist",
+    description: "Allen Newell and Herbert Simon develop the Logic Theorist, often considered the first AI program, which could prove mathematical theorems using symbolic reasoning.",
+    category: 'symbolic-ai'
+  },
+  {
     year: "1956",
     event: "Dartmouth Conference",
     description: "The founding moment of AI as a field; organized by John McCarthy, Marvin Minsky, Nathaniel Rochester, and Claude Shannon.",
+    category: 'early-ai'
+  },
+  {
+    year: "1957",
+    event: "Perceptron Invented",
+    description: "Frank Rosenblatt invents the Perceptron, the first artificial neural network capable of learning, marking the beginning of modern neural network research.",
+    category: 'machine-learning'
+  },
+  {
+    year: "1958",
+    event: "LISP Programming Language",
+    description: "John McCarthy develops LISP, a programming language that becomes fundamental to AI research due to its ability to manipulate symbolic information and support recursive functions.",
+    category: 'symbolic-ai'
+  },
+  {
+    year: "1959",
+    event: "General Problem Solver (GPS)",
+    description: "Newell and Simon create GPS, an early AI program designed to solve a wide range of problems using means-ends analysis, demonstrating general problem-solving capabilities.",
+    category: 'symbolic-ai'
+  },
+  {
+    year: "1961",
+    event: "Unimate Industrial Robot",
+    description: "The first industrial robot, Unimate, begins work at General Motors, marking the beginning of practical robotics applications in manufacturing.",
+    category: 'robotics'
+  },
+  {
+    year: "1962",
+    event: "Adaptive Linear Neuron (ADALINE)",
+    description: "Bernard Widrow and Ted Hoff develop ADALINE, an early adaptive neural network that could learn and adjust its weights, advancing neural network capabilities.",
+    category: 'machine-learning'
+  },
+  {
+    year: "1964",
+    event: "STUDENT Natural Language Processor",
+    description: "Daniel Bobrow creates STUDENT, one of the first natural language processing programs capable of solving algebra word problems by understanding English text.",
     category: 'early-ai'
   },
   {
@@ -27,10 +111,40 @@ export const timelineData: TimelineEventData[] = [
     category: 'early-ai'
   },
   {
-    year: "1950s-1980s",
-    event: "Symbolic AI (GOFAI)",
-    description: "AI systems based on logic and rules; focused on manipulating symbols and reasoning explicitly.",
+    year: "1966",
+    event: "Shakey the Robot",
+    description: "SRI International begins development of Shakey, the first mobile robot to reason about its actions, integrating AI with robotics and computer vision.",
+    category: 'robotics'
+  },
+  {
+    year: "1968",
+    event: "HAL 9000 in \"2001: A Space Odyssey\"",
+    description: "Stanley Kubrick's film introduces HAL 9000, popularizing the concept of artificial intelligence in popular culture and raising questions about AI consciousness and ethics.",
+    category: 'cultural-impact'
+  },
+  {
+    year: "1969",
+    event: "Perceptrons Book by Minsky and Papert",
+    description: "Marvin Minsky and Seymour Papert publish \"Perceptrons,\" highlighting the limitations of single-layer neural networks and contributing to the first AI winter.",
+    category: 'ai-winter'
+  },
+  {
+    year: "1970",
+    event: "Prolog Programming Language",
+    description: "Alain Colmerauer develops Prolog, a logic programming language that becomes important for AI applications, particularly in expert systems and natural language processing.",
     category: 'symbolic-ai'
+  },
+  {
+    year: "1972",
+    event: "Waseda University's WABOT-1",
+    description: "Japan's Waseda University creates WABOT-1, the first full-scale humanoid robot capable of walking, grasping objects, and rudimentary conversation.",
+    category: 'robotics'
+  },
+  {
+    year: "1973",
+    event: "Lighthill Report",
+    description: "Sir James Lighthill publishes a critical report on AI research in the UK, leading to significant cuts in AI funding and contributing to the first AI winter.",
+    category: 'ai-winter'
   },
   {
     year: "1974-1980",
@@ -39,10 +153,58 @@ export const timelineData: TimelineEventData[] = [
     category: 'ai-winter'
   },
   {
+    year: "1975",
+    event: "Genetic Algorithms",
+    description: "John Holland publishes \"Adaptation in Natural and Artificial Systems,\" introducing genetic algorithms as a method for optimization and machine learning inspired by evolution.",
+    category: 'machine-learning'
+  },
+  {
+    year: "1976",
+    event: "MYCIN Expert System",
+    description: "Edward Shortliffe develops MYCIN at Stanford, an expert system for diagnosing bacterial infections, demonstrating practical applications of AI in medicine.",
+    category: 'ai-applications'
+  },
+  {
+    year: "1979",
+    event: "Stanford Cart",
+    description: "The Stanford Cart successfully navigates a chair-filled room autonomously, demonstrating advances in computer vision and mobile robotics.",
+    category: 'robotics'
+  },
+  {
     year: "1980",
     event: "Chinese Room Argument",
     description: "Proposed by John Searle; a philosophical critique of the notion that symbol manipulation equals understanding or consciousness.",
     category: 'philosophical-foundations'
+  },
+  {
+    year: "1981",
+    event: "Fifth Generation Computer Project",
+    description: "Japan launches an ambitious 10-year project to develop computers using AI and parallel processing, spurring international competition in AI research.",
+    category: 'government-initiative'
+  },
+  {
+    year: "1982",
+    event: "Hopfield Networks",
+    description: "John Hopfield introduces Hopfield networks, a form of recurrent artificial neural network that can serve as associative memory systems.",
+    category: 'machine-learning'
+  },
+  {
+    year: "1983",
+    event: "Knowledge Navigator Concept",
+    description: "Apple creates the Knowledge Navigator concept video, envisioning AI assistants and tablets, influencing future development of personal AI technologies.",
+    category: 'cultural-impact'
+  },
+  {
+    year: "1984",
+    event: "Cyc Project Begins",
+    description: "Douglas Lenat begins the Cyc project, an ambitious attempt to create a comprehensive ontology and knowledge base of everyday common sense knowledge.",
+    category: 'symbolic-ai'
+  },
+  {
+    year: "1985",
+    event: "NetTalk Neural Network",
+    description: "Terrence Sejnowski and Charles Rosenberg create NetTalk, a neural network that learns to pronounce English text, demonstrating the power of connectionist approaches.",
+    category: 'machine-learning'
   },
   {
     year: "1986",
@@ -51,10 +213,40 @@ export const timelineData: TimelineEventData[] = [
     category: 'machine-learning'
   },
   {
+    year: "1987",
+    event: "LISP Machine Market Collapse",
+    description: "The market for specialized LISP machines collapses as general-purpose computers become more powerful, contributing to the second AI winter.",
+    category: 'ai-winter'
+  },
+  {
     year: "1987-1993",
     event: "Second AI Winter",
     description: "Second period of reduced funding and interest due to collapse in the market for specialized AI hardware.",
     category: 'ai-winter'
+  },
+  {
+    year: "1988",
+    event: "Judea Pearl's Probabilistic Reasoning",
+    description: "Judea Pearl publishes work on probabilistic reasoning and Bayesian networks, providing mathematical foundations for dealing with uncertainty in AI.",
+    category: 'machine-learning'
+  },
+  {
+    year: "1989",
+    event: "Convolutional Neural Networks",
+    description: "Yann LeCun develops convolutional neural networks (CNNs) for handwritten digit recognition, laying groundwork for modern computer vision.",
+    category: 'machine-learning'
+  },
+  {
+    year: "1990",
+    event: "Situated Robotics",
+    description: "Rodney Brooks introduces the subsumption architecture and behavior-based robotics, emphasizing embodied intelligence and real-world interaction.",
+    category: 'robotics'
+  },
+  {
+    year: "1991",
+    event: "Reinforcement Learning Formalized",
+    description: "Richard Sutton and Andrew Barto publish foundational work on reinforcement learning, formalizing how agents can learn through trial and error.",
+    category: 'machine-learning'
   },
   {
     year: "1992",
@@ -63,16 +255,34 @@ export const timelineData: TimelineEventData[] = [
     category: 'machine-learning'
   },
   {
-    year: "1990s",
-    event: "Recurrent Neural Networks (RNNs)",
-    description: "Neural networks designed for processing sequential data, using recurrent connections to maintain memory and context.",
+    year: "1993",
+    event: "Vernor Vinge's Technological Singularity",
+    description: "Vernor Vinge popularizes the concept of technological singularity, predicting that superhuman intelligence will fundamentally change civilization.",
+    category: 'speculative'
+  },
+  {
+    year: "1994",
+    event: "WebCrawler Search Engine",
+    description: "The first full-text web search engine launches, using early AI techniques for information retrieval and ranking, presaging modern search AI.",
+    category: 'ai-applications'
+  },
+  {
+    year: "1995",
+    event: "Random Forest Algorithm",
+    description: "Leo Breiman develops Random Forest, an ensemble learning method that combines multiple decision trees, becoming widely used in machine learning applications.",
     category: 'machine-learning'
   },
   {
-    year: "1990s-2000s",
-    event: "Rise of Statistical Methods",
-    description: "A shift from symbolic reasoning to statistical learning, enabled by more data and computational power.",
-    category: 'rise-of-statistical-methods'
+    year: "1996",
+    event: "Honda's ASIMO Development Begins",
+    description: "Honda begins development of ASIMO, an advanced humanoid robot that would become one of the most sophisticated walking robots of its era.",
+    category: 'robotics'
+  },
+  {
+    year: "1997",
+    event: "Deep Blue Defeats Kasparov",
+    description: "IBM's Deep Blue becomes the first computer to defeat a world chess champion (Garry Kasparov) in a match, marking a milestone in AI game-playing capabilities.",
+    category: 'technological-milestone'
   },
   {
     year: "1997",
@@ -87,10 +297,52 @@ export const timelineData: TimelineEventData[] = [
     category: 'machine-learning'
   },
   {
+    year: "1999",
+    event: "MIT's Cog Humanoid Robot",
+    description: "MIT develops Cog, a humanoid robot designed to learn and develop like a human child, advancing research in developmental robotics and AI.",
+    category: 'robotics'
+  },
+  {
+    year: "2000",
+    event: "AIBO Robot Dog",
+    description: "Sony releases AIBO, an entertainment robot dog with AI capabilities, bringing AI-powered robotics into consumer homes for the first time.",
+    category: 'robotics'
+  },
+  {
     year: "2000-2006",
     event: "Third AI Winter",
     description: "After early excitement around expert systems and neural networks in the 1990s, AI progress slowed. Funding declined as machine learning models underperformed expectations, and neural networks were seen as outdated.",
     category: 'ai-winter'
+  },
+  {
+    year: "2001",
+    event: "Wikipedia Launches",
+    description: "Wikipedia is founded, creating one of the largest collaborative knowledge bases that would later become crucial training data for AI language models.",
+    category: 'technological-milestone'
+  },
+  {
+    year: "2002",
+    event: "Roomba Vacuum Robot",
+    description: "iRobot releases the Roomba, the first successful autonomous cleaning robot for consumers, demonstrating practical AI applications in everyday life.",
+    category: 'robotics'
+  },
+  {
+    year: "2003",
+    event: "Human Genome Project Completion",
+    description: "The completion of the Human Genome Project creates vast biological datasets that drive development of AI applications in bioinformatics and genomics.",
+    category: 'technological-milestone'
+  },
+  {
+    year: "2004",
+    event: "DARPA Grand Challenge",
+    description: "DARPA's first autonomous vehicle challenge pushes development of self-driving car technology, spurring advances in AI for transportation.",
+    category: 'robotics'
+  },
+  {
+    year: "2005",
+    event: "Stanley Wins DARPA Grand Challenge",
+    description: "Stanford's Stanley vehicle successfully completes the DARPA Grand Challenge, proving that autonomous vehicles are feasible using AI and sensor technology.",
+    category: 'robotics'
   },
   {
     year: "2006",
@@ -105,9 +357,27 @@ export const timelineData: TimelineEventData[] = [
     category: 'technological-milestone'
   },
   {
+    year: "2008",
+    event: "Google's MapReduce and BigTable",
+    description: "Google publishes papers on MapReduce and BigTable, enabling large-scale data processing that becomes essential for training large AI models.",
+    category: 'technological-milestone'
+  },
+  {
     year: "2009",
     event: "ImageNet Launched",
     description: "A large-scale image dataset that provided the foundation for breakthroughs in computer vision.",
+    category: 'technological-milestone'
+  },
+  {
+    year: "2010",
+    event: "Microsoft Kinect",
+    description: "Microsoft releases Kinect, bringing computer vision and gesture recognition to consumer gaming, demonstrating practical applications of AI perception technologies.",
+    category: 'ai-applications'
+  },
+  {
+    year: "2011",
+    event: "IBM Watson Wins Jeopardy!",
+    description: "IBM's Watson defeats human champions in Jeopardy!, demonstrating advances in natural language processing and question-answering systems.",
     category: 'technological-milestone'
   },
   {
@@ -117,10 +387,34 @@ export const timelineData: TimelineEventData[] = [
     category: 'technological-milestone'
   },
   {
+    year: "2013",
+    event: "Word2Vec",
+    description: "Google releases Word2Vec, a neural network model that creates meaningful vector representations of words, revolutionizing natural language processing.",
+    category: 'machine-learning'
+  },
+  {
     year: "2014",
     event: "GANs Introduced",
     description: "Ian Goodfellow et al. introduced Generative Adversarial Networks, a new class of generative models that could create high-quality images, text, and other media.",
     category: 'generative-ai'
+  },
+  {
+    year: "2014",
+    event: "Amazon Alexa",
+    description: "Amazon releases Alexa, bringing voice-controlled AI assistants into homes and demonstrating practical applications of speech recognition and natural language understanding.",
+    category: 'ai-applications'
+  },
+  {
+    year: "2015",
+    event: "ResNet Architecture",
+    description: "Microsoft Research introduces ResNet (Residual Networks), enabling the training of much deeper neural networks and advancing computer vision capabilities.",
+    category: 'machine-learning'
+  },
+  {
+    year: "2016",
+    event: "AlphaGo Defeats Lee Sedol",
+    description: "DeepMind's AlphaGo defeats world Go champion Lee Sedol, demonstrating AI's ability to master complex strategic games previously thought impossible for computers.",
+    category: 'technological-milestone'
   },
   {
     year: "2017",
@@ -141,10 +435,22 @@ export const timelineData: TimelineEventData[] = [
     category: 'generative-ai'
   },
   {
+    year: "2018",
+    event: "BERT Released by Google",
+    description: "Google releases BERT (Bidirectional Encoder Representations from Transformers), setting new standards for natural language understanding tasks.",
+    category: 'transformers'
+  },
+  {
     year: "2019",
     event: "GPT-2",
     description: "A significantly larger version of GPT-1; initially withheld due to concerns about misuse, it showcased impressive text generation capabilities.",
     category: 'generative-ai'
+  },
+  {
+    year: "2019",
+    event: "AlphaStar Masters StarCraft II",
+    description: "DeepMind's AlphaStar achieves Grandmaster level in StarCraft II, demonstrating AI's ability to handle complex real-time strategy games.",
+    category: 'ai-applications'
   },
   {
     year: "2020",
@@ -165,6 +471,24 @@ export const timelineData: TimelineEventData[] = [
     category: 'ai-applications'
   },
   {
+    year: "2020",
+    event: "AlphaFold Protein Structure Prediction",
+    description: "DeepMind's AlphaFold achieves breakthrough accuracy in predicting protein structures, revolutionizing biological research and drug discovery.",
+    category: 'ai-applications'
+  },
+  {
+    year: "2021",
+    event: "GitHub Copilot",
+    description: "GitHub and OpenAI launch Copilot, an AI-powered coding assistant that helps developers write code, demonstrating practical AI applications in software development.",
+    category: 'ai-applications'
+  },
+  {
+    year: "2021",
+    event: "PaLM Language Model",
+    description: "Google releases PaLM (Pathways Language Model), demonstrating improved reasoning and mathematical capabilities in large language models.",
+    category: 'generative-ai'
+  },
+  {
     year: "2022",
     event: "Launch of ChatGPT",
     description: "OpenAI launched ChatGPT, a conversational AI based on GPT-3.5, marking a major milestone in public interaction with large language models.",
@@ -177,10 +501,40 @@ export const timelineData: TimelineEventData[] = [
     category: 'ai-ethics'
   },
   {
+    year: "2022",
+    event: "Stable Diffusion Released",
+    description: "Stability AI releases Stable Diffusion as open source, democratizing access to high-quality AI image generation and spurring widespread adoption.",
+    category: 'open-source-ai'
+  },
+  {
+    year: "2022",
+    event: "DALL-E 2",
+    description: "OpenAI releases DALL-E 2 with significantly improved image quality and resolution, advancing the field of AI-generated art and imagery.",
+    category: 'generative-ai'
+  },
+  {
     year: "2023",
     event: "GPT-4",
     description: "A multimodal model with improved reasoning, factuality, and image understanding, expanding the capabilities of AI in handling text and images together.",
     category: 'multimodal-ai'
+  },
+  {
+    year: "2023",
+    event: "Bard by Google",
+    description: "Google launches Bard, its conversational AI to compete with ChatGPT, marking increased competition in the large language model space.",
+    category: 'generative-ai'
+  },
+  {
+    year: "2023",
+    event: "Auto-GPT and Autonomous Agents",
+    description: "Auto-GPT and similar autonomous AI agents emerge, capable of breaking down tasks and executing them independently with minimal human oversight.",
+    category: 'ai-applications'
+  },
+  {
+    year: "2023",
+    event: "AI Safety and Alignment Research",
+    description: "Increased focus on AI safety, alignment, and the development of Constitutional AI methods to ensure AI systems behave according to human values.",
+    category: 'ai-ethics'
   },
   {
     year: "2024",
@@ -207,15 +561,51 @@ export const timelineData: TimelineEventData[] = [
     category: 'open-source-ai'
   },
   {
+    year: "2024",
+    event: "Sora Video Generation",
+    description: "OpenAI demonstrates Sora, a text-to-video generation model capable of creating realistic videos from text prompts, advancing multimodal AI capabilities.",
+    category: 'multimodal-ai'
+  },
+  {
+    year: "2024",
+    event: "AI in Scientific Discovery",
+    description: "AI models increasingly contribute to scientific breakthroughs, from drug discovery to materials science, demonstrating AI's role in accelerating research.",
+    category: 'ai-applications'
+  },
+  {
     year: "2025",
     event: "Further AI Multimodality Advances",
     description: "Major models increasingly support multimodal input/output, including video understanding and generation capabilities.",
     category: 'multimodal-ai'
   },
   {
+    year: "2025",
+    event: "AI Regulation and Governance",
+    description: "Governments worldwide implement comprehensive AI regulation frameworks, balancing innovation with safety and ethical considerations.",
+    category: 'ai-policy'
+  },
+  {
     year: "2026",
     event: "AI and Quantum Computing",
     description: "The first viable quantum AI models are developed, harnessing quantum computing to solve complex optimization problems previously unsolvable by classical AI.",
+    category: 'speculative'
+  },
+  {
+    year: "2027",
+    event: "Artificial General Intelligence (AGI) Emergence",
+    description: "The first systems approaching AGI capabilities emerge, demonstrating human-level performance across a wide range of cognitive tasks.",
+    category: 'speculative'
+  },
+  {
+    year: "2028",
+    event: "AI-Human Collaboration Era",
+    description: "Seamless AI-human collaboration becomes the norm in most knowledge work, with AI serving as intelligent co-workers rather than replacement tools.",
+    category: 'speculative'
+  },
+  {
+    year: "2030",
+    event: "AI Consciousness Debate",
+    description: "The question of AI consciousness becomes a central philosophical and legal issue as AI systems demonstrate increasingly sophisticated self-awareness and reasoning.",
     category: 'speculative'
   }
 ];
