@@ -24,11 +24,6 @@ export const Timeline = () => {
 
   return (
     <div className="relative max-w-6xl mx-auto">
-      {/* CSV Management */}
-      <div className="mb-8">
-        <CSVManager events={events} onImport={handleImport} />
-      </div>
-
       {/* View Toggle */}
       <div className="flex items-center justify-center gap-6 mb-8 p-4 bg-slate-800/30 backdrop-blur-sm rounded-xl border border-slate-700">
         <button
@@ -100,6 +95,11 @@ export const Timeline = () => {
 
       {/* References section */}
       <References />
+
+      {/* CSV Management - moved to bottom */}
+      <div className="mt-12">
+        <CSVManager events={events} onImport={handleImport} />
+      </div>
 
       {/* Event modal */}
       {selectedEvent && (
