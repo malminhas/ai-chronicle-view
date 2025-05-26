@@ -79,17 +79,32 @@ export const Timeline = () => {
   };
 
   const handleSyncToJson = () => {
-    const storageData = extractDataFromLocalStorage();
-    if (storageData) {
-      console.log('=== Data ready for JSON sync ===');
-      console.log('Copy this data to update your timelineEvents.json:');
-      console.log(JSON.stringify(storageData, null, 2));
+    console.log('=== Debug Storage Button Clicked ===');
+    
+    try {
+      const storageData = extractDataFromLocalStorage();
+      console.log('Raw storage data result:', storageData);
       
-      // Also show a summary
-      const withRefs = storageData.filter(event => event.references && event.references.length > 0);
-      console.log(`Total events: ${storageData.length}, Events with references: ${withRefs.length}`);
-    } else {
-      console.log('No localStorage data found to sync');
+      if (storageData && storageData.length > 0) {
+        console.log('=== COPY THIS DATA TO UPDATE timelineEvents.json ===');
+        console.log(JSON.stringify(storageData, null, 2));
+        console.log('=== END OF DATA ===');
+        
+        // Show summary
+        const withRefs = storageData.filter(event => event.references && event.references.length > 0);
+        console.log(`📊 Summary: ${storageData.length} total events, ${withRefs.length} events with references`);
+        
+        // Show a sample event with references for verification
+        const sampleWithRefs = storageData.find(event => event.references && event.references.length > 0);
+        if (sampleWithRefs) {
+          console.log('📋 Sample event with references:', sampleWithRefs);
+        }
+      } else {
+        console.log('❌ No localStorage data found to sync');
+        console.log('Current localStorage content:', localStorage.getItem(STORAGE_KEY));
+      }
+    } catch (error) {
+      console.error('❌ Error in handleSyncToJson:', error);
     }
   };
 
