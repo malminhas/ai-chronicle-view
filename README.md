@@ -1,4 +1,3 @@
-
 # AI Timeline Explorer
 
 An interactive web application for exploring the history of Artificial Intelligence through multiple timeline visualizations. Built with React, TypeScript, and modern web technologies.
@@ -201,9 +200,20 @@ graph TB
 
 ## 📄 CSV Data Management
 
+### 🔒 Individual User Data
+
+**Important**: Each user gets their own personalized timeline view stored locally in their browser. This means:
+
+- **Data Isolation**: Importing a CSV file only affects your view - other users are completely unaffected
+- **Personal Storage**: Your timeline data is stored in your browser's localStorage
+- **Independent Views**: Multiple users can have completely different timeline datasets simultaneously
+- **Device-Specific**: Your customized timeline persists only on the device/browser where you made changes
+
+This design ensures that users can experiment with different datasets without interfering with each other's experience.
+
 ### Import Functionality
 
-The application supports importing timeline data via CSV files with comprehensive validation.
+The application supports importing timeline data via CSV files with comprehensive validation. **All imports are local to your browser and won't affect other users.**
 
 #### CSV Format Requirements
 
@@ -241,7 +251,8 @@ year,event,description,category
 
 ### Export Functionality
 
-- **One-Click Export**: Download current timeline data as CSV
+- **One-Click Export**: Download your current personalized timeline data as CSV
+- **User-Specific Data**: Export reflects your individual timeline, which may differ from other users
 - **Standardized Format**: Consistent column structure
 - **Proper Escaping**: Handles quotes and special characters correctly
 
