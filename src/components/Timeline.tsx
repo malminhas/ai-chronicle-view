@@ -5,6 +5,7 @@ import { EventModal } from "./EventModal";
 import { References } from "./References";
 import { CompactTimeline } from "./CompactTimeline";
 import { SnakingTimeline } from "./SnakingTimeline";
+import { CSVManager } from "./CSVManager";
 import { timelineData, TimelineEventData } from "@/data/timelineData";
 import { List, Layout, Grid3X3 } from "lucide-react";
 
@@ -15,9 +16,19 @@ type ViewType = 'detailed' | 'horizontal' | 'compact';
 export const Timeline = () => {
   const [selectedEvent, setSelectedEvent] = useState<TimelineEventData | null>(null);
   const [currentView, setCurrentView] = useState<ViewType>('detailed');
+  const [events, setEvents] = useState<TimelineEventData[]>(timelineData);
+
+  const handleImport = (importedEvents: TimelineEventData[]) => {
+    setEvents(importedEvents);
+  };
 
   return (
     <div className="relative max-w-6xl mx-auto">
+      {/* CSV Management */}
+      <div className="mb-8">
+        <CSVManager events={events} onImport={handleImport} />
+      </div>
+
       {/* View Toggle */}
       <div className="flex items-center justify-center gap-6 mb-8 p-4 bg-slate-800/30 backdrop-blur-sm rounded-xl border border-slate-700">
         <button
@@ -60,12 +71,12 @@ export const Timeline = () => {
       {/* Render the appropriate view */}
       {currentView === 'horizontal' ? (
         <CompactTimeline 
-          events={timelineData}
+          events={events}
           onEventClick={setSelectedEvent}
         />
       ) : currentView === 'compact' ? (
         <SnakingTimeline 
-          events={timelineData}
+          events={events}
           onEventClick={setSelectedEvent}
         />
       ) : (
@@ -75,7 +86,7 @@ export const Timeline = () => {
           
           {/* Timeline events */}
           <div className="space-y-8">
-            {timelineData.map((eventData, index) => (
+            {events.map((eventData, index) => (
               <TimelineEvent
                 key={`${eventData.year}-${eventData.event}`}
                 eventData={eventData}
