@@ -4,37 +4,67 @@ import { TimelineEvent } from "./TimelineEvent";
 import { EventModal } from "./EventModal";
 import { References } from "./References";
 import { CompactTimeline } from "./CompactTimeline";
+import { SnakingTimeline } from "./SnakingTimeline";
 import { timelineData, TimelineEventData } from "@/data/timelineData";
-import { Switch } from "@/components/ui/switch";
-import { Layout, List } from "lucide-react";
+import { List, Layout, Grid3X3 } from "lucide-react";
 
 export type { TimelineEventData };
 
+type ViewType = 'detailed' | 'horizontal' | 'compact';
+
 export const Timeline = () => {
   const [selectedEvent, setSelectedEvent] = useState<TimelineEventData | null>(null);
-  const [isCompactView, setIsCompactView] = useState(true);
+  const [currentView, setCurrentView] = useState<ViewType>('detailed');
 
   return (
     <div className="relative max-w-6xl mx-auto">
       {/* View Toggle */}
-      <div className="flex items-center justify-center gap-4 mb-8 p-4 bg-slate-800/30 backdrop-blur-sm rounded-xl border border-slate-700">
-        <div className="flex items-center gap-2 text-slate-300">
+      <div className="flex items-center justify-center gap-6 mb-8 p-4 bg-slate-800/30 backdrop-blur-sm rounded-xl border border-slate-700">
+        <button
+          onClick={() => setCurrentView('detailed')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+            currentView === 'detailed' 
+              ? 'bg-blue-600 text-white shadow-lg' 
+              : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+          }`}
+        >
           <List className="w-5 h-5" />
           <span className="text-sm font-medium">Detailed View</span>
-        </div>
-        <Switch
-          checked={isCompactView}
-          onCheckedChange={setIsCompactView}
-          className="data-[state=checked]:bg-blue-600"
-        />
-        <div className="flex items-center gap-2 text-slate-300">
+        </button>
+
+        <button
+          onClick={() => setCurrentView('horizontal')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+            currentView === 'horizontal' 
+              ? 'bg-blue-600 text-white shadow-lg' 
+              : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+          }`}
+        >
           <Layout className="w-5 h-5" />
           <span className="text-sm font-medium">Horizontal View</span>
-        </div>
+        </button>
+
+        <button
+          onClick={() => setCurrentView('compact')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+            currentView === 'compact' 
+              ? 'bg-blue-600 text-white shadow-lg' 
+              : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+          }`}
+        >
+          <Grid3X3 className="w-5 h-5" />
+          <span className="text-sm font-medium">Compact View</span>
+        </button>
       </div>
 
-      {isCompactView ? (
+      {/* Render the appropriate view */}
+      {currentView === 'horizontal' ? (
         <CompactTimeline 
+          events={timelineData}
+          onEventClick={setSelectedEvent}
+        />
+      ) : currentView === 'compact' ? (
+        <SnakingTimeline 
           events={timelineData}
           onEventClick={setSelectedEvent}
         />
