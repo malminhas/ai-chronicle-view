@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { TimelineEventData } from "@/data/timelineData";
 import { getCategoryColor } from "@/utils/categoryUtils";
 
@@ -10,6 +10,15 @@ interface SnakingTimelineProps {
 
 export const SnakingTimeline = ({ events, onEventClick }: SnakingTimelineProps) => {
   const [hoveredEvent, setHoveredEvent] = useState<string | null>(null);
+
+  // Debounced hover handlers to prevent rapid state changes
+  const handleMouseEnter = useCallback((eventKey: string) => {
+    setHoveredEvent(eventKey);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setHoveredEvent(null);
+  }, []);
 
   // Group events into rows of 4
   const rows = [];
@@ -35,29 +44,57 @@ export const SnakingTimeline = ({ events, onEventClick }: SnakingTimelineProps) 
                   <div
                     key={eventKey}
                     className="relative flex flex-col items-center cursor-pointer group"
-                    onMouseEnter={() => setHoveredEvent(eventKey)}
-                    onMouseLeave={() => setHoveredEvent(null)}
+                    style={{ contain: 'layout style paint' }}
+                    onMouseEnter={() => handleMouseEnter(eventKey)}
+                    onMouseLeave={handleMouseLeave}
                     onClick={() => onEventClick(event)}
                   >
                     {/* Timeline dot */}
-                    <div className={`w-4 h-4 bg-gradient-to-r ${colorClasses} rounded-full border-4 border-slate-900 shadow-lg transition-all duration-300 ${isHovered ? 'scale-125 shadow-xl' : ''} z-10 mb-4`}></div>
+                    <div 
+                      className={`w-4 h-4 bg-gradient-to-r ${colorClasses} rounded-full border-4 border-slate-900 shadow-lg z-10 mb-4 will-change-transform`}
+                      style={{
+                        transform: isHovered ? 'scale3d(1.25, 1.25, 1)' : 'scale3d(1, 1, 1)',
+                        transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                        boxShadow: isHovered ? '0 10px 25px -5px rgba(0, 0, 0, 0.3)' : '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }}
+                    ></div>
                     
                     {/* Event card */}
-                    <div className={`bg-slate-800/80 backdrop-blur-sm p-4 rounded-lg border border-slate-600 shadow-lg transition-all duration-300 ${isHovered ? 'border-blue-400/50 shadow-blue-500/20 transform scale-105' : ''} w-full`}>
+                    <div 
+                      className={`bg-slate-800/80 backdrop-blur-sm p-4 rounded-lg border border-slate-600 shadow-lg w-full will-change-transform`}
+                      style={{
+                        transform: isHovered ? 'scale3d(1.05, 1.05, 1)' : 'scale3d(1, 1, 1)',
+                        transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease, box-shadow 0.2s ease',
+                        borderColor: isHovered ? 'rgba(96, 165, 250, 0.5)' : 'rgb(71, 85, 105)',
+                        boxShadow: isHovered ? '0 20px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.04)' : '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                      }}
+                    >
                       {/* Year */}
                       <div className="text-lg font-bold text-white mb-2 text-center">{event.year}</div>
                       
                       {/* Event title */}
-                      <h3 className="text-sm font-semibold text-blue-300 text-center leading-tight group-hover:text-blue-200 transition-colors line-clamp-2">
+                      <h3 className="text-sm font-semibold text-blue-300 text-center leading-tight line-clamp-2"
+                          style={{
+                            color: isHovered ? 'rgb(196, 181, 253)' : 'rgb(147, 197, 253)',
+                            transition: 'color 0.2s ease'
+                          }}>
                         {event.event}
                       </h3>
                       
-                      {/* Hover indicator */}
-                      {isHovered && (
-                        <div className="mt-3 text-blue-400 text-xs font-medium animate-fade-in text-center">
-                          Click for details →
-                        </div>
-                      )}
+                      {/* Pre-allocated space for hover text to prevent layout shift */}
+                      <div className="mt-3 h-4 flex items-center justify-center">
+                        {isHovered && (
+                          <div 
+                            className="text-blue-400 text-xs font-medium text-center"
+                            style={{
+                              opacity: isHovered ? 1 : 0,
+                              transition: 'opacity 0.15s ease-in-out'
+                            }}
+                          >
+                            Click for details →
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 );
