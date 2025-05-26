@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { TimelineEvent } from "./TimelineEvent";
 import { EventModal } from "./EventModal";
@@ -28,7 +29,7 @@ export const Timeline = () => {
         />
         <div className="flex items-center gap-2 text-slate-300">
           <Layout className="w-5 h-5" />
-          <span className="text-sm font-medium">Compact View</span>
+          <span className="text-sm font-medium">Horizontal View</span>
         </div>
       </div>
 
